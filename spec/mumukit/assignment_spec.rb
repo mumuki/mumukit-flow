@@ -192,7 +192,7 @@ describe Mumukit::Flow::Assignment::Helpers do
           it { expect(assignment.next_items).to eq [exercises[1], exercises[2]] }
 
           it { expect(assignment.next_item_suggestion.item).to eq exercises[1] }
-          it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Reforce }
+          it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue }
         end
 
         context 'when there is no exercise that matches the suggestion' do
@@ -222,7 +222,7 @@ describe Mumukit::Flow::Assignment::Helpers do
           it { expect(assignment.next_items).to eq [exercises[1], exercises[2]] }
 
           it { expect(assignment.next_item_suggestion.item).to eq exercises[1] }
-          it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Reforce }
+          it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue }
         end
       end
     end

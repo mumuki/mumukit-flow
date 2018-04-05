@@ -72,7 +72,7 @@ module Mumukit::Flow
         elsif next_item_suggestion_type == :learning
           Mumukit::Flow::Suggestion::FastForward.new next_learning_item
         else
-          Mumukit::Flow::Suggestion::Reforce.new next_practice_item
+          Mumukit::Flow::Suggestion::Continue.new next_practice_item
         end
       end
 

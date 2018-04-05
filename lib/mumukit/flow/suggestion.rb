@@ -13,10 +13,13 @@ module Mumukit::Flow
       end
     end
 
-    class Reforce < Some
+    class Continue < Some
     end
 
     class FastForward < Some
+    end
+
+    class Revisit < Some
     end
 
     class Retry < Some
