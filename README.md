@@ -14,6 +14,7 @@ At glance, it supports four types of flow:
    * `retry`: re-do previously solved exercises that turned to be hard to pass
 
 They are implemented as `Mumukit::Flow::Suggestion`s: `Mumukit::Flow::Suggestion::Continue`, `Mumukit::Flow::Suggestion::FastForward`, `Mumukit::Flow::Suggestion::Revisit` and `Mumukit::Flow::Suggestion::Retry`.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
