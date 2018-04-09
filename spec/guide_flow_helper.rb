@@ -15,14 +15,18 @@ class GuideFlow
   end
 
   def submit!(status)
+    already_finished = @current.finished?
     @current.accept_submission_status! status
-    if @current.passed?
+    if @current.finished?
+      @current.close!
       item = @current.next_suggested_item
       if item
         seek! item.number
       else
         @current = nil
       end
+    elsif already_finished
+      @current.reopen!
     end
   end
 
@@ -49,5 +53,9 @@ class GuideFlow
 
   def closed?
     @guide_assignment.closed?
+  end
+
+  def total_submissions_count
+    @guide_assignment.submissions_count
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Mumukit::Flow::Assignment::Helpers do
+describe Mumukit::Flow::Assignment do
   context 'complete assignments' do
     let!(:guide) { DemoGuide.new(exercises) }
     let(:exercises) { [

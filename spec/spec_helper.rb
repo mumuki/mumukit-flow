@@ -12,9 +12,9 @@ end
 
 
 class DemoBaseAssignment
-  include Mumukit::Flow::Assignment::Helpers
+  include Mumukit::Flow::Assignment
 
-  attr_reader :children, :submissions_count, :item, :parent
+  attr_accessor :submissions_count, :item, :parent
 
   def initialize(item, children)
     @item = item
@@ -22,13 +22,11 @@ class DemoBaseAssignment
     children.each { |it| it.parent = self }
     @submissions_count = 0
   end
-
-  def passed?
-    @status == :passed
-  end
 end
 
 class DemoExerciseAssignment < DemoBaseAssignment
+  include Mumukit::Flow::Assignment::Terminal
+
   attr_accessor :status, :parent
 
   def initialize(item)
@@ -40,25 +38,14 @@ class DemoExerciseAssignment < DemoBaseAssignment
     @submissions_count += 1
   end
 
-  def finished?
-    passed?
+  def passed?
+    @status == :passed
   end
+
 end
 
 class DemoGuideAssignment < DemoBaseAssignment
-  attr_accessor :closed
-
-  def finished?
-    closed || children.all?(&:finished?)
-  end
-
-  # Must be called when you know that the exercise has been finished
-  def close!
-    @closed = true
-    @submissions_count = children.map { |it| it.submissions_count }.sum
-    super
-  end
-
+  attr_accessor :closed, :children
   alias closed? closed
 end
 
