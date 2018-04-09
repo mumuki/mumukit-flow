@@ -83,6 +83,10 @@ module Mumukit::Flow
         siblings.any? &:hard?
       end
 
+      def next_suggested_item
+        next_item_suggestion.item
+      end
+
       def next_item_suggestion
         if end_reached?
           if pending_items?

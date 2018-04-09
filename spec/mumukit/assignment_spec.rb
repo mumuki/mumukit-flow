@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe Mumukit::Flow::Assignment::Helpers do
-  context 'incomplete assignments' do
-    pending
-  end
   context 'complete assignments' do
     let!(:guide) { DemoGuide.new(exercises) }
     let(:exercises) { [
@@ -48,7 +45,7 @@ describe Mumukit::Flow::Assignment::Helpers do
         it { expect(assignment.next_item).to eq nil }
         it { expect(assignment.next_items).to eq [] }
 
-        pending { expect(assignment.next_item_suggestion.item).to eq exercises[1] }
+        pending { expect(assignment.next_suggested_item).to eq exercises[1] }
         pending { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Retry }
       end
 
@@ -64,14 +61,9 @@ describe Mumukit::Flow::Assignment::Helpers do
         it { expect(assignment.next_item).to eq nil }
         it { expect(assignment.next_items).to eq [] }
 
-        it { expect(assignment.next_item_suggestion.item).to eq exercises[1] }
+        it { expect(assignment.next_suggested_item).to eq exercises[1] }
         it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Retry }
       end
-
-      context 'when previous exercises have being hard to solve, but they have being alredy retried' do
-        pending
-      end
-
 
       context 'when there is a single pending exercises' do
         before do
@@ -83,7 +75,7 @@ describe Mumukit::Flow::Assignment::Helpers do
         it { expect(assignment.next_item).to eq nil }
         it { expect(assignment.next_items).to eq [] }
 
-        it { expect(assignment.next_item_suggestion.item).to eq exercises[1] }
+        it { expect(assignment.next_suggested_item).to eq exercises[1] }
         it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Revisit }
       end
 
@@ -96,7 +88,7 @@ describe Mumukit::Flow::Assignment::Helpers do
         it { expect(assignment.next_item).to eq nil }
         it { expect(assignment.next_items).to eq [] }
 
-        it { expect(assignment.next_item_suggestion.item).to eq exercises[0] }
+        it { expect(assignment.next_suggested_item).to eq exercises[0] }
         it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Revisit }
       end
     end
@@ -123,7 +115,7 @@ describe Mumukit::Flow::Assignment::Helpers do
           it { expect(assignment.next_item).to eq exercises[1] }
           it { expect(assignment.next_items).to eq [exercises[1], exercises[2]] }
 
-          it { expect(assignment.next_item_suggestion.item).to eq exercises[2] }
+          it { expect(assignment.next_suggested_item).to eq exercises[2] }
           it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::FastForward }
         end
 
@@ -144,7 +136,7 @@ describe Mumukit::Flow::Assignment::Helpers do
           it { expect(assignment.next_item).to eq exercises[1] }
           it { expect(assignment.next_items).to eq [exercises[1], exercises[2]] }
 
-          it { expect(assignment.next_item_suggestion.item).to eq exercises[1] }
+          it { expect(assignment.next_suggested_item).to eq exercises[1] }
           it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue }
         end
 
@@ -161,7 +153,7 @@ describe Mumukit::Flow::Assignment::Helpers do
           it { expect(assignment.should_retry?).to be true }
 
           it { expect(assignment.next_item_suggestion_type).to eq :practice }
-          it { expect(assignment.next_item_suggestion.item).to be_practice }
+          it { expect(assignment.next_suggested_item).to be_practice }
 
           it { expect(assignment.item).to eq exercises[0] }
           it { expect(assignment.next_item).to eq exercises[1] }
@@ -173,7 +165,7 @@ describe Mumukit::Flow::Assignment::Helpers do
           it { expect(assignment.next_items).to eq [exercises[1], exercises[2]] }
 
 
-          it { expect(assignment.next_item_suggestion.item).to eq exercises[1] }
+          it { expect(assignment.next_suggested_item).to eq exercises[1] }
           it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue }
         end
 
@@ -191,9 +183,9 @@ describe Mumukit::Flow::Assignment::Helpers do
           it { expect(assignment.next_item).to eq exercises[2] }
 
           it { expect(assignment.next_item_suggestion_type).to eq :practice }
-          it { expect(assignment.next_item_suggestion.item).to be_learning }
+          it { expect(assignment.next_suggested_item).to be_learning }
 
-          it { expect(assignment.next_item_suggestion.item).to eq exercises[2] }
+          it { expect(assignment.next_suggested_item).to eq exercises[2] }
           it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue }
         end
       end

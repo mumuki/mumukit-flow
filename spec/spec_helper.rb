@@ -11,7 +11,6 @@ RSpec.configure do |config|
 end
 
 
-
 class DemoBaseAssignment
   include Mumukit::Flow::Assignment::Helpers
 
@@ -20,7 +19,7 @@ class DemoBaseAssignment
   def initialize(item, children)
     @item = item
     @children = children
-    children.each { |it| it.instance_variable_set :@parent, self }
+    children.each { |it| it.parent = self }
     @submissions_count = 0
   end
 
@@ -30,7 +29,7 @@ class DemoBaseAssignment
 end
 
 class DemoExerciseAssignment < DemoBaseAssignment
-  attr_reader :status
+  attr_accessor :status, :parent
 
   def initialize(item)
     super(item, [])
@@ -64,7 +63,7 @@ end
 class DemoBaseContent
   include Mumukit::Flow::Node
 
-  attr_reader :parent
+  attr_accessor :parent
 
   def learning?
     @type == :learning
@@ -83,10 +82,12 @@ class DemoExercise < DemoBaseContent
 end
 
 class DemoGuide < DemoBaseContent
+  attr_accessor :exercises
+
   def initialize(exercises)
     @exercises = exercises
     exercises.merge_numbers!
-    exercises.each { |it| it.instance_variable_set :@parent, self }
+    exercises.each { |it| it.parent = self }
   end
 
   def children
