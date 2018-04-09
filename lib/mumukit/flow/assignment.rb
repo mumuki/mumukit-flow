@@ -71,10 +71,24 @@ module Mumukit::Flow
         difficulty.next_item_suggestion_type
       end
 
+      def first_hard_assignment
+        siblings.find &:hard?
+      end
+
+      def end_reached?
+        next_item.nil?
+      end
+
+      def hard_assignments?
+        siblings.any? &:hard?
+      end
+
       def next_item_suggestion
-        if next_item.nil?
+        if end_reached?
           if pending_items?
             Mumukit::Flow::Suggestion::Revisit.new(first_pending_item)
+          elsif hard_assignments?
+            Mumukit::Flow::Suggestion::Retry.new(first_hard_assignment.item)
           else
             Mumukit::Flow::Suggestion::None
           end
@@ -97,11 +111,11 @@ module Mumukit::Flow
       end
 
       def next_learning_item
-        next_items.select { |it| it.learning? }.first || next_item
+        next_items.find { |it| it.learning? } || next_item
       end
 
       def next_practice_item
-        next_items.select { |it| it.practice? }.first || next_item
+        next_items.find { |it| it.practice? } || next_item
       end
     end
   end

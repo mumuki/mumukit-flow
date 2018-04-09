@@ -64,9 +64,14 @@ describe Mumukit::Flow::Assignment::Helpers do
         it { expect(assignment.next_item).to eq nil }
         it { expect(assignment.next_items).to eq [] }
 
-        pending { expect(assignment.next_item_suggestion.item).to eq exercises[1] }
-        pending { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Retry }
+        it { expect(assignment.next_item_suggestion.item).to eq exercises[1] }
+        it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Retry }
       end
+
+      context 'when previous exercises have being hard to solve, but they have being alredy retried' do
+        pending
+      end
+
 
       context 'when there is a single pending exercises' do
         before do
