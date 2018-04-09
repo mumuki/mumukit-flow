@@ -232,4 +232,6 @@ describe 'guide flow integration' do
     expect(flow).to_not be_finished
     expect(flow).to_not be_closed
   end
+
+  pending "it works if exercises change"
 end
