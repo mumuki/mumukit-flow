@@ -36,6 +36,11 @@ module Mumukit::Flow
         submissions_count / children.size
       end
 
+      # Can be called whenever you think the exercise may have being finished
+      def try_close!
+        close! if finished?
+      end
+
       # Must be called when you know that the exercise has been finished
       def close!
         parent.close! if parent.finished?

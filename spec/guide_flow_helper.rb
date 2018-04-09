@@ -2,11 +2,11 @@ def build_guide(*kinds)
   DemoGuide.new(kinds.map { |it| DemoExercise.new(it) })
 end
 
-def build_flow(guide)
-  Flow.new(guide)
+def build_guide_flow(guide)
+  GuideFlow.new(guide)
 end
 
-class Flow
+class GuideFlow
   def initialize(guide)
     @guide = guide
     @exercise_assignments = []
@@ -39,7 +39,15 @@ class Flow
     @current
   end
 
-  def current_number
+  def current_exercise_number
     current&.item&.number
+  end
+
+  def finished?
+    @guide_assignment.finished?
+  end
+
+  def closed?
+    @guide_assignment.closed?
   end
 end

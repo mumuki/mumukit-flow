@@ -58,6 +58,8 @@ class DemoGuideAssignment < DemoBaseAssignment
     @submissions_count = children.map { |it| it.submissions_count }.sum
     super
   end
+
+  alias closed? closed
 end
 
 class DemoBaseContent
