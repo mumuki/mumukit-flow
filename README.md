@@ -1,8 +1,8 @@
 # Mumukit::Flow
 
-> An adaptative flow implementation for the Mumuki Platform
+> An adaptive flow implementation for the Mumuki Platform
 
-This gem implements an adaptative flow - on other ways, it responds to the question _what exercise should come next?_. It does not address other aspects of the platform like code evaluation, submission flow UI or feedback provision.
+This gem implements an adaptive flow - on other ways, it responds to the question _what exercise should come next?_. It does not address other aspects of the platform like code evaluation, submission flow UI or feedback provision.
 
 At glance, it supports four types of flow:
 
