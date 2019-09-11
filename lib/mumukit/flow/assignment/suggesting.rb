@@ -15,7 +15,7 @@ module Mumukit::Flow::Assignment
         end
       else
         if next_item_suggestion_type == :learning
-          Mumukit::Flow::Suggestion::FastForward.new(next_learning_item)
+          Mumukit::Flow::Suggestion::Skip.new(next_learning_item)
         else
           Mumukit::Flow::Suggestion::Continue.new(next_practice_item)
         end
