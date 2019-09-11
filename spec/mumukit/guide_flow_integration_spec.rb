@@ -37,7 +37,7 @@ describe 'guide flow integration' do
     expect(flow.total_submissions_count).to eq 11
   end
 
-  it "1: hard, 2: easy, 3: easy, 1: easy" do
+  it "1: hard, 2: easy, 3: easy" do
     expect(flow.current_exercise_number).to be 1
 
     10.times { flow.submit! :failed }
@@ -48,14 +48,11 @@ describe 'guide flow integration' do
     expect(flow.current_exercise_number).to be 3
 
     flow.submit! :passed
-    expect(flow.current_exercise_number).to be 1
-
-    flow.submit! :passed
     expect(flow.current_exercise_number).to be nil
 
     expect(flow).to be_finished
     expect(flow).to be_closed
-    expect(flow.total_submissions_count).to eq 14
+    expect(flow.total_submissions_count).to eq 13
   end
 
   it "[mixed submissions] 1: normal, 2: normal, 3: normal" do
@@ -159,7 +156,7 @@ describe 'guide flow integration' do
     expect(flow.total_submissions_count).to eq 15
   end
 
-  it "1: hard, 2: easy, 3: easy, 1: hard" do
+  it "1: hard, 2: easy, 3: easy" do
     expect(flow.current_exercise_number).to be 1
 
     10.times { flow.submit! :failed }
@@ -170,15 +167,11 @@ describe 'guide flow integration' do
     expect(flow.current_exercise_number).to be 3
 
     flow.submit! :passed
-    expect(flow.current_exercise_number).to be 1
-
-    10.times { flow.submit! :failed }
-    flow.submit! :passed
     expect(flow.current_exercise_number).to be nil
 
     expect(flow).to be_finished
     expect(flow).to be_closed
-    expect(flow.total_submissions_count).to eq 24
+    expect(flow.total_submissions_count).to eq 13
   end
 
   pending "1: hard, 2: hard, 3: easy, 1: hard, 1: hard" do

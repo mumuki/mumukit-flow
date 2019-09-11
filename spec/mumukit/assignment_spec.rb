@@ -45,8 +45,8 @@ describe Mumukit::Flow::Assignment do
         it { expect(assignment.next_item).to eq nil }
         it { expect(assignment.next_items).to eq [] }
 
-        pending { expect(assignment.next_suggested_item).to eq exercises[1] }
-        pending { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Retry }
+        it { expect(assignment.next_suggested_item).to eq nil }
+        it { expect(assignment.next_item_suggestion).to be Mumukit::Flow::Suggestion::None }
       end
 
       context 'when previous exercises have being hard to solve' do
@@ -61,8 +61,8 @@ describe Mumukit::Flow::Assignment do
         it { expect(assignment.next_item).to eq nil }
         it { expect(assignment.next_items).to eq [] }
 
-        it { expect(assignment.next_suggested_item).to eq exercises[1] }
-        it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Retry }
+        it { expect(assignment.next_suggested_item).to eq nil }
+        it { expect(assignment.next_item_suggestion).to be Mumukit::Flow::Suggestion::None }
       end
 
       context 'when there is a single pending exercises' do

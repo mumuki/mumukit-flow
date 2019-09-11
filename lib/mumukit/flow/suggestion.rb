@@ -21,8 +21,5 @@ module Mumukit::Flow
 
     class Revisit < Some
     end
-
-    class Retry < Some
-    end
   end
 end

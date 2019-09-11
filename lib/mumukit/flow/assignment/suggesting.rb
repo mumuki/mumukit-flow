@@ -10,8 +10,6 @@ module Mumukit::Flow::Assignment
       if end_reached?
         if pending_items?
           Mumukit::Flow::Suggestion::Revisit.new(first_pending_item)
-        elsif hard_assignments?
-          Mumukit::Flow::Suggestion::Retry.new(first_hard_assignment.item)
         else
           Mumukit::Flow::Suggestion::None
         end
