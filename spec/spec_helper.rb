@@ -64,9 +64,10 @@ class DemoBaseContent
 end
 
 class DemoExercise < DemoBaseContent
-  attr_accessor :number
+  attr_accessor :number, :tags
   def initialize(type)
     @type = type
+    @tags = ['A', 'B']
   end
 end
 

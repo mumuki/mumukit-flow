@@ -115,8 +115,8 @@ describe Mumukit::Flow::Assignment do
           it { expect(assignment.next_item).to eq exercises[1] }
           it { expect(assignment.next_items).to eq [exercises[1], exercises[2]] }
 
-          it { expect(assignment.next_suggested_item).to eq exercises[2] }
-          it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Skip }
+          it { expect(assignment.next_suggested_item).to eq exercises[1] }
+          it { expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue }
         end
 
         context 'assignment is normal' do
