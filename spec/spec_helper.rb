@@ -10,6 +10,13 @@ RSpec.configure do |config|
   end
 end
 
+def assignments_for(exercises)
+  assignments = exercises.map { |exercise| DemoExerciseAssignment.new(exercise) }
+  guide = DemoGuide.new(exercises)
+  guide_assignment = DemoGuideAssignment.new(guide, assignments)
+
+  guide_assignment.children
+end
 
 class DemoBaseAssignment
   include Mumukit::Flow::Assignment
@@ -65,9 +72,9 @@ end
 
 class DemoExercise < DemoBaseContent
   attr_accessor :number, :tags
-  def initialize(type)
+  def initialize(type, tags=['A', 'B'])
     @type = type
-    @tags = ['A', 'B']
+    @tags = tags
   end
 end
 
