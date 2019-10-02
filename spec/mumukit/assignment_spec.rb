@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Mumukit::Flow::Assignment do
-
   let(:exercises) { [
     DemoExercise.new(:learning),
     DemoExercise.new(:learning),
@@ -142,9 +141,23 @@ describe Mumukit::Flow::Assignment do
         assignment.accept_submission_status! :passed
       end
 
-      it 'should suggest to skip a third exercise' do
-        expect(assignment.next_suggested_item).to eq exercises[2]
-        expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Skip
+      context 'when the third exercise is practice' do
+        it 'should suggest to skip it' do
+          expect(assignment.next_suggested_item).to eq exercises[2]
+          expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Skip
+        end
+      end
+
+      context 'when the third exercise is learning' do
+        before do
+          exercises[2] = DemoExercise.new(:learning)
+          assignments_for(exercises)
+        end
+
+        it 'should suggest to continue with it' do
+          expect(assignment.next_suggested_item).to eq exercises[2]
+          expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue
+        end
       end
     end
 

@@ -25,7 +25,7 @@ module Mumukit::Flow::Assignment
     private
 
     def should_skip_next_item?
-      at_least_two_similar_easy_assignments?
+      at_least_two_similar_easy_assignments? unless next_item.learning?
     end
 
     def at_least_two_similar_easy_assignments?
