@@ -20,7 +20,6 @@ module Mumukit::Flow
     required :children
     required :submitter
     required :parent
-    required :tags
 
     delegate :easy?, :hard?, :should_retry?, to: :difficulty
 
@@ -86,6 +85,14 @@ module Mumukit::Flow
       siblings.any? &:hard?
     end
 
+    def children_passed_assignments
+      children.select { |assignment| assignment.passed? }
+    end
+
+    def item_similar_to?(item)
+      (self.item.tags - item.tags).empty?
+    end
+
     private
 
     # Overridable for better performance
@@ -93,10 +100,6 @@ module Mumukit::Flow
       # a cada item hijo pedirle su assignment y quedarse con los que no tienen o lo tinen en pending
       item_assignments = siblings.map { |it| [it.item, it] }.to_h
       sibling_items.reject { |it| item_assignments[it]&.finished?  }
-    end
-
-    def solved_sibling_items
-      parent.children.select { |assignment| assignment.passed? }
     end
   end
 end

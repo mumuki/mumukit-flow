@@ -34,23 +34,11 @@ module Mumukit::Flow::Assignment
     end
 
     def similar_solved_assignments
-      solved_sibling_items.select { |item| has_all? item.item.tags, next_item.tags }
+      parent.children_passed_assignments.select { |assignment| assignment.item_similar_to?(next_item) }
     end
 
-    def has_all?(tags, other_tags)
-      (tags - other_tags).empty?
-    end
-
-    def solved_most_easily?(items)
-      items.count { |item| item.easy? } > items.count / 2
-    end
-
-    def next_learning_item
-      next_items.find { |it| it.learning? } || next_item
-    end
-
-    def next_practice_item
-      next_items.find { |it| it.practice? } || next_item
+    def solved_most_easily?(assignments)
+      assignments.count { |assignment| assignment.easy? } > assignments.count / 2
     end
   end
 end
