@@ -93,6 +93,10 @@ module Mumukit::Flow
       (self.item.tags - item.tags).empty?
     end
 
+    def item_has?(tag)
+      item.tags.include?(tag)
+    end
+
     private
 
     # Overridable for better performance

@@ -25,19 +25,22 @@ module Mumukit::Flow::Assignment
     private
 
     def should_skip_next_item?
-      at_least_two_similar_easy_assignments? unless next_item.learning?
+      similar_easy_assignments_for_every_tag? unless next_item.learning?
     end
 
-    def at_least_two_similar_easy_assignments?
-      assignments = similar_solved_assignments
-      assignments.count >= 2 && (solved_most_easily? assignments)
+    def similar_easy_assignments_for_every_tag?
+      next_item.tags.all? { |tag| easy_assignments_with(tag).count >= 2 }
     end
 
-    def similar_solved_assignments
-      parent.children_passed_assignments.select { |assignment| assignment.item_similar_to?(next_item) }
+    def easy_assignments_with(tag)
+      parent_passed_assignments.select { |assignment| assignment.easy? && assignment.item_has?(tag) }
     end
 
-    def solved_most_easily?(assignments)
+    def parent_passed_assignments
+      parent.children_passed_assignments
+    end
+
+    def passed_most_easily?(assignments)
       assignments.count { |assignment| assignment.easy? } > assignments.count / 2
     end
   end
