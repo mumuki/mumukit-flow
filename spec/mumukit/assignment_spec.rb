@@ -178,4 +178,90 @@ describe Mumukit::Flow::Assignment do
       end
     end
   end
+
+  describe 'exercises with different tags' do
+    context 'when exercise with tag A and exercise with tag B were solved easily' do
+      let(:exercises) { [
+          DemoExercise.new(:learning, ['A']),
+          DemoExercise.new(:learning, ['B']),
+          DemoExercise.new(:practice)]
+      }
+
+      let!(:assignments) { assignments_for(exercises) }
+      let(:assignment) { assignments[1] }
+
+      before do
+        assignments[0].accept_submission_status! :passed
+        assignment.accept_submission_status! :passed
+      end
+
+      it 'should suggest continuing with the next exercise whatever its tag' do
+        expect(assignment.next_suggested_item).to eq exercises[2]
+        expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue
+      end
+    end
+
+    context 'when exercise with tag AB and exercise with tag A were solved easily' do
+      let(:exercises) { [
+          DemoExercise.new(:learning, ['A', 'B']),
+          DemoExercise.new(:learning, ['A'])]
+      }
+
+      let!(:assignments) { assignments_for(exercises) }
+      let!(:assignment) { assignments[1] }
+
+      before do
+        assignments[0].accept_submission_status! :passed
+        assignment.accept_submission_status! :passed
+      end
+
+      context 'next exercise is learning with any tag' do
+        before do
+          exercises[2] = DemoExercise.new(:learning)
+          assignments_for(exercises)
+        end
+
+        it 'should suggest continuing' do
+          expect(assignment.next_suggested_item).to eq exercises[2]
+          expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue
+        end
+      end
+
+      context 'next exercise is practice with tag A' do
+        before do
+          exercises[2] = DemoExercise.new(:practice, ['A'])
+          assignments_for(exercises)
+        end
+
+        it 'should suggest skipping' do
+          expect(assignment.next_suggested_item).to eq exercises[2]
+          expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Skip
+        end
+      end
+
+      context 'next exercise is practice with tag B' do
+        before do
+          exercises[2] = DemoExercise.new(:practice, ['B'])
+          assignments_for(exercises)
+        end
+
+        it 'should suggest continuing' do
+          expect(assignment.next_suggested_item).to eq exercises[2]
+          expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue
+        end
+      end
+
+      context 'next exercise is practice with tag AB' do
+        before do
+          exercises[2] = DemoExercise.new(:practice, ['A', 'B'])
+          assignments_for(exercises)
+        end
+
+        it 'should suggest continuing' do
+          expect(assignment.next_suggested_item).to eq exercises[2]
+          expect(assignment.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue
+        end
+      end
+    end
+  end
 end
