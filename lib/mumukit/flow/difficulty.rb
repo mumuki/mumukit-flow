@@ -1,11 +1,5 @@
-module Mumukit::Flow
-  class Difficulty
-    attr_reader :level
-
-    def initialize(level = 0)
-      @level = level
-    end
-
+module Mumukit::Flow::Assignment
+  module Difficulty
     def easy?
       level <= 3
     end

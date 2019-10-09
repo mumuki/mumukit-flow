@@ -13,6 +13,7 @@ module Mumukit::Flow
 
     include Mumukit::Flow::Node
     include Mumukit::Flow::Assignment::Closing
+    include Mumukit::Flow::Assignment::Difficulty
     include Mumukit::Flow::Assignment::Suggesting
 
     required :item
@@ -20,12 +21,6 @@ module Mumukit::Flow
     required :children
     required :submitter
     required :parent
-
-    delegate :easy?, :hard?, :should_retry?, to: :difficulty
-
-    def difficulty
-      Mumukit::Flow::Difficulty.new(level)
-    end
 
     def level
       if has_children?
