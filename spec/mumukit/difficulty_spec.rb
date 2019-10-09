@@ -1,61 +1,92 @@
 require 'spec_helper'
 
 describe 'difficulty' do
+  let(:exercises) { [ DemoExercise.new(:learning) ] }
 
-  describe 'track_failure!' do
-    pending 'no failures' do
-      let(:difficulty) { Mumukit::Flow::Difficulty.new }
+  let(:assignments) { assignments_for(exercises) }
+  let(:assignment) { assignments[0] }
 
-      it { expect(difficulty.level).to eq 0 }
-      it { expect(difficulty.easy?).to be true }
-      it { expect(difficulty.hard?).to be false }
+  describe 'passing an assignment' do
+    context 'with no failures' do
+      before do
+        assignment.accept_submission_status! :passed
+      end
 
-      it { expect(difficulty.should_retry?).to be false }
-      it { expect(difficulty.next_item_suggestion_type).to be :learning }
+      it 'should be easy' do
+        expect(assignment.easy?).to be true
+        expect(assignment.hard?).to be false
+      end
     end
 
-    pending 'fail once' do
-      let(:difficulty) { Mumukit::Flow::Difficulty.new 1 }
+    context 'with two failures' do
+      before do
+        2.times { assignment.accept_submission_status! :failed }
+        assignment.accept_submission_status! :passed
+      end
 
-      it { expect(difficulty.level).to eq 1 }
-      it { expect(difficulty.easy?).to be true }
-      it { expect(difficulty.hard?).to be false }
-
-      it { expect(difficulty.should_retry?).to be false }
-      it { expect(difficulty.next_item_suggestion_type).to be :learning }
+      it 'should be easy' do
+        expect(assignment.easy?).to be true
+        expect(assignment.hard?).to be false
+      end
     end
 
-    pending 'fail twice' do
-      let(:difficulty) { Mumukit::Flow::Difficulty.new 2 }
+    context 'with three failures' do
+      before do
+        3.times { assignment.accept_submission_status! :failed }
+        assignment.accept_submission_status! :passed
+      end
 
-      it { expect(difficulty.level).to eq 2 }
-      it { expect(difficulty.easy?).to be true }
-      it { expect(difficulty.hard?).to be false }
-
-      it { expect(difficulty.should_retry?).to be false }
-      it { expect(difficulty.next_item_suggestion_type).to be :learning }
+      it 'should not be easy or hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be false
+      end
     end
 
-    pending 'four failures' do
-      let(:difficulty) { Mumukit::Flow::Difficulty.new 4 }
+    context 'with ten failures' do
+      before do
+        10.times { assignment.accept_submission_status! :failed }
+        assignment.accept_submission_status! :passed
+      end
 
-      it { expect(difficulty.level).to eq 4 }
-      it { expect(difficulty.easy?).to be false }
-      it { expect(difficulty.hard?).to be false }
+      it 'should be hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be true
+      end
+    end
+  end
 
-      it { expect(difficulty.should_retry?).to be false }
-      it { expect(difficulty.next_item_suggestion_type).to be :practice }
+  describe 'failing an assignment' do
+    context 'once' do
+      before do
+        assignment.accept_submission_status! :failed
+      end
+
+      it 'should not be easy or hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be false
+      end
     end
 
-    pending 'ten failures' do
-      let(:difficulty) { Mumukit::Flow::Difficulty.new 10 }
+    context 'three times' do
+      before do
+        3.times { assignment.accept_submission_status! :failed }
+      end
 
-      it { expect(difficulty.level).to eq 10 }
-      it { expect(difficulty.easy?).to be false }
-      it { expect(difficulty.hard?).to be true }
+      it 'should not be easy or hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be false
+      end
+    end
 
-      it { expect(difficulty.should_retry?).to be true }
-      it { expect(difficulty.next_item_suggestion_type).to be :practice }
+    context 'ten times' do
+      before do
+        10.times { assignment.accept_submission_status! :failed }
+      end
+
+      it 'should be hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be true
+      end
     end
   end
 end
