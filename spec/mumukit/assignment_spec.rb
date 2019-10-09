@@ -10,8 +10,8 @@ describe Mumukit::Flow::Assignment do
   let!(:assignments) { assignments_for(exercises) }
   let(:assignment) { assignments[0] }
 
-  describe 'submissions and difficulty' do
-    context 'when an assignment is passed on one try' do
+  describe 'assignment is passed' do
+    context 'in one try' do
       before do
         assignment.accept_submission_status! :passed
       end
@@ -20,17 +20,12 @@ describe Mumukit::Flow::Assignment do
         expect(assignment.submissions_count).to eq 1
       end
 
-      it 'should be easy' do
-        expect(assignment.easy?).to be true
-        expect(assignment.hard?).to be false
-      end
-
       it 'should know its status' do
         expect(assignment.status).to eq :passed
       end
     end
 
-    context 'when an assignment is passed after five tries' do
+    context 'in five tries' do
       before do
         4.times { assignment.accept_submission_status! :failed }
         assignment.accept_submission_status! :passed
@@ -40,17 +35,12 @@ describe Mumukit::Flow::Assignment do
         expect(assignment.submissions_count).to eq 5
       end
 
-      it 'should not be easy or hard' do
-        expect(assignment.easy?).to be false
-        expect(assignment.hard?).to be false
-      end
-
       it 'should know its status' do
         expect(assignment.status).to eq :passed
       end
     end
 
-    context 'when an assignment is passed after ten tries' do
+    context 'in ten tries' do
       before do
         9.times { assignment.accept_submission_status! :failed }
         assignment.accept_submission_status! :passed
@@ -60,41 +50,31 @@ describe Mumukit::Flow::Assignment do
         expect(assignment.submissions_count).to eq 10
       end
 
-      it 'should be hard' do
-        expect(assignment.easy?).to be false
-        expect(assignment.hard?).to be true
-      end
-
       it 'should know its status' do
         expect(assignment.status).to eq :passed
       end
     end
+  end
 
-    context 'when an assignment is failed twice' do
-      before do
-        2.times { assignment.accept_submission_status! :failed }
-      end
+  describe 'assignment is failed' do
+    before do
+      assignment.accept_submission_status! :failed
+    end
 
-      it 'should count submissions accordingly' do
-        expect(assignment.submissions_count).to eq 2
-      end
+    it 'should count submissions accordingly' do
+      expect(assignment.submissions_count).to eq 1
+    end
 
-      it 'should not be easy or hard' do
-        expect(assignment.easy?).to be false
-        expect(assignment.hard?).to be false
-      end
-
-      it 'should know its status' do
-        expect(assignment.status).to eq :failed
-      end
+    it 'should know its status' do
+      expect(assignment.status).to eq :failed
     end
   end
 
   describe 'items' do
-    context 'for the last assignment' do
+    context 'last assignment' do
       let(:assignment) { assignments[2] }
 
-      it 'should know the assignments item' do
+      it 'should know its item' do
         expect(assignment.item).to eq exercises[2]
       end
 
@@ -103,8 +83,8 @@ describe Mumukit::Flow::Assignment do
       end
     end
 
-    context 'for a non-trailing assignment' do
-      it 'should know the assignments item' do
+    context 'non-trailing assignment' do
+      it 'should know its item' do
         expect(assignment.item).to eq exercises[0]
       end
 
