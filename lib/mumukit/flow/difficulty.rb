@@ -1,7 +1,7 @@
 module Mumukit::Flow::Assignment
   module Difficulty
     def easy?
-      level <= 3
+      closed? && level <= 3
     end
 
     def hard?

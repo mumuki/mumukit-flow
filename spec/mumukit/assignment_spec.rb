@@ -80,7 +80,6 @@ describe Mumukit::Flow::Assignment do
       end
 
       it 'should not be easy or hard' do
-        pending("Currently true for easy as it's not checking if the assignment is passed")
         expect(assignment.easy?).to be false
         expect(assignment.hard?).to be false
       end
