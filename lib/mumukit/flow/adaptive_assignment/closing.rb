@@ -1,4 +1,4 @@
-module Mumukit::Flow::Assignment
+module Mumukit::Flow::AdaptiveAssignment
   module Closing
 
     # Can be called whenever you think the exercise may have being finished

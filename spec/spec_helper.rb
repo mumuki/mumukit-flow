@@ -19,7 +19,7 @@ def assignments_for(exercises)
 end
 
 class DemoBaseAssignment
-  include Mumukit::Flow::Assignment
+  include Mumukit::Flow::AdaptiveAssignment
 
   attr_accessor :submissions_count, :item, :parent
 
@@ -32,7 +32,7 @@ class DemoBaseAssignment
 end
 
 class DemoExerciseAssignment < DemoBaseAssignment
-  include Mumukit::Flow::Assignment::Terminal
+  include Mumukit::Flow::AdaptiveAssignment::Terminal
 
   attr_accessor :status, :parent
 
