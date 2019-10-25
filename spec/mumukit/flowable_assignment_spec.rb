@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Mumukit::Flow::Assignment do
+describe Mumukit::Flow::FlowableAssignment do
   let(:exercises) { [
     DemoExercise.new(:learning),
     DemoExercise.new(:learning),

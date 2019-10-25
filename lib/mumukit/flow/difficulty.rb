@@ -1,4 +1,4 @@
-module Mumukit::Flow::Assignment
+module Mumukit::Flow::FlowableAssignment
   module Difficulty
     def easy?
       closed? && level <= 3

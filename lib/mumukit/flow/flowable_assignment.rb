@@ -1,20 +1,20 @@
 module Mumukit::Flow
-  module Assignment
+  module FlowableAssignment
   end
 end
 
-require_relative './assignment/closing'
-require_relative './assignment/terminal'
-require_relative './assignment/suggesting'
+require_relative './flowable_assignment/closing'
+require_relative './flowable_assignment/terminal'
+require_relative './flowable_assignment/suggesting'
 
 module Mumukit::Flow
-  module Assignment
+  module FlowableAssignment
     extend ActiveSupport::Concern
 
     include Mumukit::Flow::Node
-    include Mumukit::Flow::Assignment::Closing
-    include Mumukit::Flow::Assignment::Difficulty
-    include Mumukit::Flow::Assignment::Suggesting
+    include Mumukit::Flow::FlowableAssignment::Closing
+    include Mumukit::Flow::FlowableAssignment::Difficulty
+    include Mumukit::Flow::FlowableAssignment::Suggesting
 
     required :item
     required :submissions_count

@@ -1,6 +1,6 @@
-module Mumukit::Flow::Assignment
+module Mumukit::Flow::FlowableAssignment
   module Terminal
-    include Mumukit::Flow::Assignment
+    include Mumukit::Flow::FlowableAssignment
 
     def children
       []
