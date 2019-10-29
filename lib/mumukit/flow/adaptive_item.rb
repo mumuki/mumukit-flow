@@ -1,6 +1,7 @@
 module Mumukit::Flow
   module AdaptiveItem
     include Mumukit::Flow::Node
+    include Mumukit::Flow::Suggesting
 
     required :assignment
     required :children

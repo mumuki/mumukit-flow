@@ -5,7 +5,6 @@ end
 
 require_relative './adaptive_assignment/closing'
 require_relative './adaptive_assignment/terminal'
-require_relative './adaptive_assignment/suggesting'
 
 module Mumukit::Flow
   module AdaptiveAssignment
@@ -13,7 +12,6 @@ module Mumukit::Flow
 
     include Mumukit::Flow::AdaptiveAssignment::Closing
     include Mumukit::Flow::AdaptiveAssignment::Difficulty
-    include Mumukit::Flow::AdaptiveAssignment::Suggesting
 
     required :submissions_count
     required :submitter

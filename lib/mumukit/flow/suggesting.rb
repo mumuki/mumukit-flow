@@ -1,4 +1,4 @@
-module Mumukit::Flow::AdaptiveAssignment
+module Mumukit::Flow
   module Suggesting
     def next_suggested_item
       next_item_suggestion.item
