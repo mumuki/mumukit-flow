@@ -5,7 +5,6 @@ end
 
 require_relative './flowable_assignment/closing'
 require_relative './flowable_assignment/terminal'
-require_relative './flowable_assignment/suggesting'
 
 module Mumukit::Flow
   module FlowableAssignment
@@ -13,7 +12,6 @@ module Mumukit::Flow
 
     include Mumukit::Flow::FlowableAssignment::Closing
     include Mumukit::Flow::FlowableAssignment::Difficulty
-    include Mumukit::Flow::FlowableAssignment::Suggesting
 
     required :submissions_count
     required :submitter
