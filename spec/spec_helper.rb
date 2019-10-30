@@ -65,7 +65,7 @@ class DemoExercise < DemoBaseContent
 end
 
 class DemoGuide < DemoBaseContent
-  attr_accessor :exercises, :children
+  attr_accessor :children
 
   def initialize(exercises)
     @children = exercises

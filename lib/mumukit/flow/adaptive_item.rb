@@ -7,6 +7,8 @@ module Mumukit::Flow
     required :children
     required :parent
 
+    delegate :closed?, :finished?, to: :assignment
+
     def level
       if has_children?
         average_submissions_count
@@ -28,7 +30,7 @@ module Mumukit::Flow
     end
 
     def next_items
-      sorted_pending_sibling_items.select { |it| it.number > item.number }
+      sorted_pending_sibling_items.select { |it| it.number > number }
     end
 
     def sibling_items
