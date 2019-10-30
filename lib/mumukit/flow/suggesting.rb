@@ -5,7 +5,7 @@ module Mumukit::Flow
     end
 
     def next_item_suggestion
-      raise 'can not suggest until closed' unless closed?
+      raise 'can not suggest until closed' unless assignment.closed?
 
       if end_reached?
         if pending_items?
