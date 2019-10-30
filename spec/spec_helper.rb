@@ -11,33 +11,22 @@ RSpec.configure do |config|
 end
 
 def assignments_for(exercises)
-  assignments = exercises.map { |exercise| DemoExerciseAssignment.new(exercise) }
+  assignments = exercises.map { |exercise| exercise.assignment= DemoAssignment.new }
   guide = DemoGuide.new(exercises)
   guide_assignment = DemoGuideAssignment.new(guide, assignments)
 
   guide_assignment.children
 end
 
-class DemoBaseAssignment
+class DemoAssignment
   include Mumukit::Flow::AdaptiveAssignment
-
-  attr_accessor :submissions_count, :item, :parent
-
-  def initialize(item, children)
-    @item = item
-    @children = children
-    children.each { |it| it.parent = self }
-    @submissions_count = 0
-  end
-end
-
-class DemoExerciseAssignment < DemoBaseAssignment
   include Mumukit::Flow::AdaptiveAssignment::Terminal
 
-  attr_accessor :status, :parent
+  attr_accessor :submissions_count
+  attr_accessor :status
 
-  def initialize(item)
-    super(item, [])
+  def initialize
+    @submissions_count = 0
   end
 
   def accept_submission_status!(status)
@@ -51,13 +40,8 @@ class DemoExerciseAssignment < DemoBaseAssignment
 
 end
 
-class DemoGuideAssignment < DemoBaseAssignment
-  attr_accessor :closed, :children
-  alias closed? closed
-end
-
 class DemoBaseContent
-  include Mumukit::Flow::Node
+  include Mumukit::Flow::AdaptiveItem
 
   attr_accessor :parent
 
@@ -71,23 +55,21 @@ class DemoBaseContent
 end
 
 class DemoExercise < DemoBaseContent
-  attr_accessor :number, :tags
+  attr_accessor :number, :tags, :assignment
+
   def initialize(type, tags=['A', 'B'])
     @type = type
     @tags = tags
+    @assignment = DemoAssignment.new
   end
 end
 
 class DemoGuide < DemoBaseContent
-  attr_accessor :exercises
+  attr_accessor :exercises, :children
 
   def initialize(exercises)
-    @exercises = exercises
+    @children = exercises
     exercises.merge_numbers!
     exercises.each { |it| it.parent = self }
-  end
-
-  def children
-    @exercises
   end
 end
