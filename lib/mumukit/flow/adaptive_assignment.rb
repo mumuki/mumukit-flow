@@ -13,9 +13,6 @@ module Mumukit::Flow
     include Mumukit::Flow::AdaptiveAssignment::Closing
     include Mumukit::Flow::AdaptiveAssignment::Difficulty
 
-    required :submissions_count
-    required :submitter
-
     def next_item_suggestion_type
       difficulty.next_item_suggestion_type
     end
