@@ -1,11 +1,11 @@
 module Mumukit::Flow::AdaptiveAssignment
   module Difficulty
     def easy?
-      closed? && level <= 3
+      closed? && submissions_count <= 3
     end
 
     def hard?
-      level >= 10
+      submissions_count >= 10
     end
   end
 end
