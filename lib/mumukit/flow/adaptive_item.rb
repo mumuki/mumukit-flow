@@ -7,7 +7,7 @@ module Mumukit::Flow
     required :children
     required :parent
 
-    delegate :closed?, :passed?, :submitter, to: :assignment
+    delegate :passed?, :submitter, to: :assignment
 
     attr_reader :assignment
 
@@ -80,7 +80,7 @@ module Mumukit::Flow
     private
 
     def pending_siblings
-      siblings.reject { |sibling| sibling.finished? }
+      siblings.reject { |sibling| sibling.passed? }
     end
 
   end
