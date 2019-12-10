@@ -5,8 +5,6 @@ module Mumukit::Flow
     end
 
     def next_item_suggestion
-      raise 'can not suggest until closed' unless closed?
-
       if end_reached?
         if pending_items?
           Mumukit::Flow::Suggestion::Revisit.new(first_pending_item)
