@@ -7,7 +7,14 @@ module Mumukit::Flow
     required :children
     required :parent
 
-    delegate :closed?, :finished?, to: :assignment
+    delegate :closed?, :passed?, :submitter, to: :assignment
+
+    attr_reader :assignment
+
+    def set_adaptive_assignment!(submitter)
+      @assignment = assignment_for submitter
+      assignment.skip_if_pending!
+    end
 
     def level
       if has_children?
