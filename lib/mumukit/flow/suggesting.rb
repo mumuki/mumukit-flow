@@ -33,7 +33,7 @@ module Mumukit::Flow
     end
 
     def easy_assignments_with(tag)
-      parent_passed_assignments.select { |assignment| assignment.easy? && assignment.item_has?(tag) }
+      parent_passed_assignments.select { |assignment| assignment.easy? && assignment.item.has?(tag) }
     end
 
     def parent_passed_assignments

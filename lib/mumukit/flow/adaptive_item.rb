@@ -73,12 +73,8 @@ module Mumukit::Flow
       exercise_assignments_for(submitter).select { |assignment| assignment.passed? }
     end
 
-    def item_similar_to?(item)
-      (self.item.tags - item.tags).empty?
-    end
-
-    def item_has?(tag)
-      item.tags.include?(tag)
+    def has?(tag)
+      tags.include?(tag)
     end
 
     private
