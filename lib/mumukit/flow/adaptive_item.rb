@@ -69,8 +69,8 @@ module Mumukit::Flow
       siblings.any? &:hard?
     end
 
-    def children_passed_assignments
-      children.select { |assignment| assignment.passed? }
+    def children_passed_assignments_by(submitter)
+      exercise_assignments_for(submitter).select { |assignment| assignment.passed? }
     end
 
     def item_similar_to?(item)
