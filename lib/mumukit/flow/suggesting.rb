@@ -1,10 +1,11 @@
 module Mumukit::Flow
   module Suggesting
-    def next_suggested_item
-      next_item_suggestion.item
+    def next_suggested_item_for(submitter)
+      set_adaptive_assignment!(submitter)
+      next_item_suggestion(submitter).item
     end
 
-    def next_item_suggestion
+    def next_item_suggestion(submitter)
       if end_reached?
         if pending_items?
           Mumukit::Flow::Suggestion::Revisit.new(first_pending_item)
@@ -13,7 +14,7 @@ module Mumukit::Flow
         end
       else
         if should_skip_next_item?
-          Mumukit::Flow::Suggestion::Skip.new(next_item)
+          Mumukit::Flow::Suggestion::Skip.new(next_item.next_suggested_item_for(submitter))
         else
           Mumukit::Flow::Suggestion::Continue.new(next_item)
         end
@@ -35,7 +36,7 @@ module Mumukit::Flow
     end
 
     def parent_passed_assignments
-      parent.children_passed_assignments
+      parent.children_passed_assignments_by(self.submitter)
     end
 
     def passed_most_easily?(assignments)
