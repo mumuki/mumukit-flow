@@ -10,22 +10,14 @@ RSpec.configure do |config|
   end
 end
 
-def assignments_for(exercises)
-  assignments = exercises.map { |exercise| exercise.assignment= DemoAssignment.new }
-  guide = DemoGuide.new(exercises)
-  guide_assignment = DemoGuideAssignment.new(guide, assignments)
-
-  guide_assignment.children
-end
-
 class DemoAssignment
   include Mumukit::Flow::AdaptiveAssignment
-  include Mumukit::Flow::AdaptiveAssignment::Terminal
 
-  attr_accessor :submissions_count
-  attr_accessor :status
+  attr_accessor :item, :status, :submissions_count, :submitter
 
-  def initialize
+  def initialize(item)
+    @item = item
+    @status = :pending
     @submissions_count = 0
   end
 
@@ -38,6 +30,11 @@ class DemoAssignment
     @status == :passed
   end
 
+  def skip_if_pending!
+    if @status == :pending
+      @status = :passed
+    end
+  end
 end
 
 class DemoBaseContent
@@ -57,10 +54,16 @@ end
 class DemoExercise < DemoBaseContent
   attr_accessor :number, :tags, :assignment
 
+  delegate :accept_submission_status!, to: :assignment
+
   def initialize(type, tags=['A', 'B'])
     @type = type
     @tags = tags
-    @assignment = DemoAssignment.new
+    @assignment = DemoAssignment.new(self)
+  end
+
+  def assignment_for(_submitter)
+    assignment
   end
 end
 
@@ -71,5 +74,9 @@ class DemoGuide < DemoBaseContent
     @children = exercises
     exercises.merge_numbers!
     exercises.each { |it| it.parent = self }
+  end
+
+  def exercise_assignments_for(_submitter)
+    children.map(&:assignment)
   end
 end
