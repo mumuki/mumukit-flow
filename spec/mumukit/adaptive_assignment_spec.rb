@@ -1,66 +1,89 @@
 require 'spec_helper'
 
 describe Mumukit::Flow::AdaptiveAssignment do
-  let(:exercise) { DemoExercise.new(:learning) }
-  let(:assignment) { exercise.assignment }
+  let(:assignment) { DemoExercise.new(:learning).assignment }
 
-  describe 'assignment is passed' do
-    context 'in one try' do
+  describe 'passing an assignment' do
+    context 'with no failures' do
       before do
         assignment.accept_submission_status! :passed
       end
 
-      it 'should count submissions accordingly' do
-        expect(assignment.submissions_count).to eq 1
-      end
-
-      it 'should know its status' do
-        expect(assignment.status).to eq :passed
+      it 'should be easy' do
+        expect(assignment.easy?).to be true
+        expect(assignment.hard?).to be false
       end
     end
 
-    context 'in five tries' do
+    context 'with two failures' do
       before do
-        4.times { assignment.accept_submission_status! :failed }
+        2.times { assignment.accept_submission_status! :failed }
         assignment.accept_submission_status! :passed
       end
 
-      it 'should count submissions accordingly' do
-        expect(assignment.submissions_count).to eq 5
-      end
-
-      it 'should know its status' do
-        expect(assignment.status).to eq :passed
+      it 'should be easy' do
+        expect(assignment.easy?).to be true
+        expect(assignment.hard?).to be false
       end
     end
 
-    context 'in ten tries' do
+    context 'with three failures' do
       before do
-        9.times { assignment.accept_submission_status! :failed }
+        3.times { assignment.accept_submission_status! :failed }
         assignment.accept_submission_status! :passed
       end
 
-      it 'should count submissions accordingly' do
-        expect(assignment.submissions_count).to eq 10
+      it 'should not be easy or hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be false
+      end
+    end
+
+    context 'with ten failures' do
+      before do
+        10.times { assignment.accept_submission_status! :failed }
+        assignment.accept_submission_status! :passed
       end
 
-      it 'should know its status' do
-        expect(assignment.status).to eq :passed
+      it 'should be hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be true
       end
     end
   end
 
-  describe 'assignment is failed' do
-    before do
-      assignment.accept_submission_status! :failed
+  describe 'failing an assignment' do
+    context 'once' do
+      before do
+        assignment.accept_submission_status! :failed
+      end
+
+      it 'should not be easy or hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be false
+      end
     end
 
-    it 'should count submissions accordingly' do
-      expect(assignment.submissions_count).to eq 1
+    context 'three times' do
+      before do
+        3.times { assignment.accept_submission_status! :failed }
+      end
+
+      it 'should not be easy or hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be false
+      end
     end
 
-    it 'should know its status' do
-      expect(assignment.status).to eq :failed
+    context 'ten times' do
+      before do
+        10.times { assignment.accept_submission_status! :failed }
+      end
+
+      it 'should be hard' do
+        expect(assignment.easy?).to be false
+        expect(assignment.hard?).to be true
+      end
     end
   end
 end
