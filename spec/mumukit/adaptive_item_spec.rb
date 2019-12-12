@@ -4,29 +4,136 @@ describe Mumukit::Flow::AdaptiveItem do
   let(:exercises) { [
       DemoExercise.new(:learning),
       DemoExercise.new(:learning),
-      DemoExercise.new(:practice)]
-  }
-
+      DemoExercise.new(:practice),
+      DemoExercise.new(:learning)
+  ] }
+  let(:submitter) { 'a student' }
   let!(:guide) { DemoGuide.new(exercises) }
-
   let(:exercise) { exercises[0] }
-  let!(:assignment) { exercise.assignment }
 
   describe 'exercises with same tags' do
-    context 'when no exercises have been solved' do
-      it 'should not suggest anything' do
-        expect { exercise.next_item_suggestion }.to raise_error('can not suggest until closed')
+    context 'when one exercise has been solved' do
+      before do
+        exercise.accept_submission_status! :passed
+      end
+
+      it 'should suggest continuing with the next one' do
+        expect(exercise.next_suggested_item_for(submitter)).to eq exercises[1]
       end
     end
 
-    context 'when one exercise has been solved' do
+    context 'when two learning exercises of a certain tag were solved easily' do
       before do
-        assignment.accept_submission_status! :passed
+        exercises[0].accept_submission_status! :passed
+        exercises[1].accept_submission_status! :passed
       end
 
-      it 'should suggest to continue with the next exercise' do
-        expect(exercise.next_suggested_item).to eq exercises[1]
-        expect(exercise.next_item_suggestion).to be_a Mumukit::Flow::Suggestion::Continue
+      context 'when the third exercise is practice and the fourth one is learning' do
+        it 'should suggest skipping to the fourth one' do
+          expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[3]
+        end
+      end
+
+      context 'when the third exercise is learning' do
+        before do
+          exercises[2] = DemoExercise.new(:learning)
+          guide = DemoGuide.new(exercises)
+        end
+
+        it 'should suggest continuing with it' do
+          expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
+        end
+      end
+    end
+
+    context 'when no exercises of a certain tag were solved easily' do
+      before do
+        5.times { exercises[0].accept_submission_status! :failed }
+        5.times { exercises[1].accept_submission_status! :failed }
+
+        exercises[0].accept_submission_status! :passed
+        exercises[1].accept_submission_status! :passed
+      end
+
+      it 'should suggest continuing with the next exercise' do
+        expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
+      end
+    end
+  end
+
+  describe 'exercises with different tags' do
+    context 'when exercise with tag A and exercise with tag B were solved easily' do
+      let(:exercises) { [
+          DemoExercise.new(:learning, ['A']),
+          DemoExercise.new(:learning, ['B']),
+          DemoExercise.new(:practice)]
+      }
+
+      before do
+        guide = DemoGuide.new(exercises)
+        exercises[0].accept_submission_status! :passed
+        exercises[1].accept_submission_status! :passed
+      end
+
+      it 'should suggest continuing with the next exercise whatever its tag' do
+        expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
+      end
+    end
+
+    context 'when exercise with tags AB and exercise with tag A were solved easily' do
+      let(:exercises) { [
+          DemoExercise.new(:learning, ['A', 'B']),
+          DemoExercise.new(:learning, ['A'])]
+      }
+
+      before do
+        guide = DemoGuide.new(exercises)
+        exercises[0].accept_submission_status! :passed
+        exercises[1].accept_submission_status! :passed
+      end
+
+      context 'when next exercise is learning with any tag' do
+        before do
+          exercises[2] = DemoExercise.new(:learning)
+          guide = DemoGuide.new(exercises)
+        end
+
+        it 'should suggest continuing' do
+          expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
+        end
+      end
+
+      context 'when next exercise is practice with tag A' do
+        before do
+          exercises[2] = DemoExercise.new(:practice, ['A'])
+          guide = DemoGuide.new(exercises)
+        end
+
+        it 'should suggest skipping' do
+          expect(exercise.next_suggested_item_for(submitter)).to eq exercises[3]
+        end
+      end
+
+      context 'when next exercise is practice with tag B' do
+        before do
+          exercises[2] = DemoExercise.new(:practice, ['B'])
+          guide = DemoGuide.new(exercises)
+        end
+
+        it 'should suggest continuing' do
+          expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
+        end
+      end
+
+      context 'when next exercise is practice with tags AB' do
+        before do
+          exercises[2] = DemoExercise.new(:practice, ['A', 'B'])
+          guide = DemoGuide.new(exercises)
+        end
+
+        it 'should suggest continuing' do
+          expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
+        end
       end
     end
   end
