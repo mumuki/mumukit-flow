@@ -5,6 +5,7 @@ describe Mumukit::Flow::AdaptiveItem do
       DemoExercise.new(:learning),
       DemoExercise.new(:learning),
       DemoExercise.new(:practice),
+      DemoExercise.new(:learning),
       DemoExercise.new(:learning)
   ] }
   let(:submitter) { 'a student' }
@@ -28,12 +29,6 @@ describe Mumukit::Flow::AdaptiveItem do
         exercises[1].accept_submission_status! :passed
       end
 
-      context 'when the third exercise is practice and the fourth one is learning' do
-        it 'should suggest skipping to the fourth one' do
-          expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[3]
-        end
-      end
-
       context 'when the third exercise is learning' do
         before do
           exercises[2] = DemoExercise.new(:learning)
@@ -42,6 +37,25 @@ describe Mumukit::Flow::AdaptiveItem do
 
         it 'should suggest continuing with it' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
+        end
+      end
+
+      context 'when the third exercise is practice' do
+        context 'when the fourth exercise is learning' do
+          it 'should suggest skipping to the fourth one' do
+            expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[3]
+          end
+        end
+
+        context 'when the fourth exercise is practice and the fifth one is learning' do
+          before do
+            exercises[3] = DemoExercise.new(:practice)
+            guide = DemoGuide.new(exercises)
+          end
+
+          it 'should suggest skipping to the fifth one' do
+            expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[4]
+          end
         end
       end
     end
