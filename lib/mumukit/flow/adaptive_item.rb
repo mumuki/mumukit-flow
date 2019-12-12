@@ -16,20 +16,8 @@ module Mumukit::Flow
       assignment.skip_if_pending!
     end
 
-    def level
-      if has_children?
-        average_submissions_count
-      else
-        submissions_count
-      end
-    end
-
-    def average_submissions_count
-      assignment.submissions_count / children.size
-    end
-
-    def has_children?
-      children.present?
+    def end_reached?
+      next_item.nil?
     end
 
     def next_item
@@ -40,33 +28,20 @@ module Mumukit::Flow
       sorted_pending_sibling_items.select { |it| it.number > number }
     end
 
-    def sibling_items
-      item.siblings
+    def sorted_pending_sibling_items
+      pending_siblings.sort_by(&:number)
+    end
+
+    def pending_siblings
+      siblings.reject { |sibling| sibling.passed? }
     end
 
     def first_pending_item
       sorted_pending_sibling_items.first
     end
 
-    def sorted_pending_sibling_items
-      pending_siblings.sort_by(&:number)
-    end
-
     def pending_items?
       pending_siblings.present?
-    end
-
-
-    def first_hard_assignment
-      siblings.find &:hard?
-    end
-
-    def end_reached?
-      next_item.nil?
-    end
-
-    def hard_assignments?
-      siblings.any? &:hard?
     end
 
     def children_passed_assignments_by(submitter)
@@ -76,13 +51,5 @@ module Mumukit::Flow
     def has?(tag)
       tags.include?(tag)
     end
-
-    private
-
-    def pending_siblings
-      siblings.reject { |sibling| sibling.passed? }
-    end
-
   end
 end
-
