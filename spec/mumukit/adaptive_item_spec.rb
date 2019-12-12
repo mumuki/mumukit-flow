@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Mumukit::Flow::AdaptiveItem do
+describe Mumukit::Flow::Suggesting do
   let(:exercises) { [
       DemoExercise.new(:learning),
       DemoExercise.new(:learning),
@@ -44,6 +44,7 @@ describe Mumukit::Flow::AdaptiveItem do
         context 'when the fourth exercise is learning' do
           it 'should suggest skipping to the fourth one' do
             expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[3]
+            expect(exercises[2]).to be_passed
           end
         end
 
@@ -55,6 +56,8 @@ describe Mumukit::Flow::AdaptiveItem do
 
           it 'should suggest skipping to the fifth one' do
             expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[4]
+            expect(exercises[2]).to be_passed
+            expect(exercises[3]).to be_passed
           end
         end
       end
@@ -125,6 +128,7 @@ describe Mumukit::Flow::AdaptiveItem do
 
         it 'should suggest skipping' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[3]
+          expect(exercises[2]).to be_passed
         end
       end
 
