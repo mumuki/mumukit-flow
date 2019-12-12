@@ -1,10 +1,7 @@
 require 'spec_helper'
 
 describe 'difficulty' do
-  let(:exercises) { [ DemoExercise.new(:learning) ] }
-
-  let(:assignments) { assignments_for(exercises) }
-  let(:assignment) { assignments[0] }
+  let(:assignment) { DemoExercise.new(:learning).assignment }
 
   describe 'passing an assignment' do
     context 'with no failures' do
