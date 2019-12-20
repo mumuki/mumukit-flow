@@ -9,8 +9,9 @@ describe Mumukit::Flow::Suggesting do
       DemoExercise.new(:learning)
   ] }
   let(:submitter) { 'a student' }
-  let!(:guide) { DemoGuide.new(exercises) }
   let(:exercise) { exercises[0] }
+
+  before { build_guide_with(exercises) }
 
   describe 'exercises with same tags' do
     context 'when one exercise has been solved' do
@@ -32,7 +33,7 @@ describe Mumukit::Flow::Suggesting do
       context 'when the third exercise is learning' do
         before do
           exercises[2] = DemoExercise.new(:learning)
-          guide = DemoGuide.new(exercises)
+          build_guide_with(exercises)
         end
 
         it 'suggests continuing with it' do
@@ -51,7 +52,7 @@ describe Mumukit::Flow::Suggesting do
         context 'when the fourth exercise is practice and the fifth one is learning' do
           before do
             exercises[3] = DemoExercise.new(:practice)
-            guide = DemoGuide.new(exercises)
+            build_guide_with(exercises)
           end
 
           it 'suggests skipping to the fifth one' do
@@ -87,7 +88,6 @@ describe Mumukit::Flow::Suggesting do
       }
 
       before do
-        guide = DemoGuide.new(exercises)
         exercises[0].accept_submission_status! :passed
         exercises[1].accept_submission_status! :passed
       end
@@ -104,7 +104,6 @@ describe Mumukit::Flow::Suggesting do
       }
 
       before do
-        guide = DemoGuide.new(exercises)
         exercises[0].accept_submission_status! :passed
         exercises[1].accept_submission_status! :passed
       end
@@ -112,7 +111,7 @@ describe Mumukit::Flow::Suggesting do
       context 'when next exercise is learning with any tag' do
         before do
           exercises[2] = DemoExercise.new(:learning)
-          guide = DemoGuide.new(exercises)
+          build_guide_with(exercises)
         end
 
         it 'suggests continuing' do
@@ -123,7 +122,7 @@ describe Mumukit::Flow::Suggesting do
       context 'when next exercise is practice with tag A' do
         before do
           exercises[2] = DemoExercise.new(:practice, ['A'])
-          guide = DemoGuide.new(exercises)
+          build_guide_with(exercises)
         end
 
         it 'suggests skipping' do
@@ -135,7 +134,7 @@ describe Mumukit::Flow::Suggesting do
       context 'when next exercise is practice with tag B' do
         before do
           exercises[2] = DemoExercise.new(:practice, ['B'])
-          guide = DemoGuide.new(exercises)
+          build_guide_with(exercises)
         end
 
         it 'suggests continuing' do
@@ -146,7 +145,7 @@ describe Mumukit::Flow::Suggesting do
       context 'when next exercise is practice with tags AB' do
         before do
           exercises[2] = DemoExercise.new(:practice, ['A', 'B'])
-          guide = DemoGuide.new(exercises)
+          build_guide_with(exercises)
         end
 
         it 'suggests continuing' do

@@ -10,6 +10,10 @@ RSpec.configure do |config|
   end
 end
 
+def build_guide_with(exercises)
+  DemoGuide.new(exercises)
+end
+
 class DemoAssignment
   include Mumukit::Flow::AdaptiveAssignment
 
