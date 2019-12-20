@@ -18,7 +18,7 @@ describe Mumukit::Flow::Suggesting do
         exercise.accept_submission_status! :passed
       end
 
-      it 'should suggest continuing with the next one' do
+      it 'suggests continuing with the next one' do
         expect(exercise.next_suggested_item_for(submitter)).to eq exercises[1]
       end
     end
@@ -35,14 +35,14 @@ describe Mumukit::Flow::Suggesting do
           guide = DemoGuide.new(exercises)
         end
 
-        it 'should suggest continuing with it' do
+        it 'suggests continuing with it' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
         end
       end
 
       context 'when the third exercise is practice' do
         context 'when the fourth exercise is learning' do
-          it 'should suggest skipping to the fourth one' do
+          it 'suggests skipping to the fourth one' do
             expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[3]
             expect(exercises[2]).to be_passed
           end
@@ -54,7 +54,7 @@ describe Mumukit::Flow::Suggesting do
             guide = DemoGuide.new(exercises)
           end
 
-          it 'should suggest skipping to the fifth one' do
+          it 'suggests skipping to the fifth one' do
             expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[4]
             expect(exercises[2]).to be_passed
             expect(exercises[3]).to be_passed
@@ -72,7 +72,7 @@ describe Mumukit::Flow::Suggesting do
         exercises[1].accept_submission_status! :passed
       end
 
-      it 'should suggest continuing with the next exercise' do
+      it 'suggests continuing with the next exercise' do
         expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
       end
     end
@@ -92,7 +92,7 @@ describe Mumukit::Flow::Suggesting do
         exercises[1].accept_submission_status! :passed
       end
 
-      it 'should suggest continuing with the next exercise whatever its tag' do
+      it 'suggests continuing with the next exercise whatever its tag' do
         expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
       end
     end
@@ -115,7 +115,7 @@ describe Mumukit::Flow::Suggesting do
           guide = DemoGuide.new(exercises)
         end
 
-        it 'should suggest continuing' do
+        it 'suggests continuing' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
         end
       end
@@ -126,7 +126,7 @@ describe Mumukit::Flow::Suggesting do
           guide = DemoGuide.new(exercises)
         end
 
-        it 'should suggest skipping' do
+        it 'suggests skipping' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[3]
           expect(exercises[2]).to be_passed
         end
@@ -138,7 +138,7 @@ describe Mumukit::Flow::Suggesting do
           guide = DemoGuide.new(exercises)
         end
 
-        it 'should suggest continuing' do
+        it 'suggests continuing' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
         end
       end
@@ -149,7 +149,7 @@ describe Mumukit::Flow::Suggesting do
           guide = DemoGuide.new(exercises)
         end
 
-        it 'should suggest continuing' do
+        it 'suggests continuing' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
         end
       end
