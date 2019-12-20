@@ -77,6 +77,20 @@ describe Mumukit::Flow::Suggesting do
         expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
       end
     end
+
+    context 'when everything can be skipped till the end' do
+      before do
+        5.times { |time| exercises[time] = DemoExercise.new(:practice) }
+        build_guide_with(exercises)
+      end
+
+      it 'suggests nothing after solving some and skipping the rest' do
+        exercises[0].accept_submission_status! :passed
+        exercises[1].accept_submission_status! :passed
+
+        expect(exercises[1].next_suggested_item_for(submitter)).to be nil
+      end
+    end
   end
 
   describe 'exercises with different tags' do
