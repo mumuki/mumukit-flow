@@ -39,13 +39,13 @@ describe Mumukit::Flow::AdaptiveItem do
     end
   end
 
-  describe '#pending_items?' do
+  describe '#pending_siblings?' do
     context 'when all exercises have been solved' do
       before do
         exercises.each { |exercise| exercise.accept_submission_status! :passed }
       end
 
-      it { expect(exercise.pending_items?).to be false }
+      it { expect(exercise.pending_siblings?).to be false }
     end
 
     context 'when one or more exercises have failed' do
@@ -53,18 +53,18 @@ describe Mumukit::Flow::AdaptiveItem do
         exercises.each { |exercise| exercise.accept_submission_status! :failed }
       end
 
-      it { expect(exercise.pending_items?).to be true }
+      it { expect(exercise.pending_siblings?).to be true }
     end
 
     context 'when one or more exercises remain pending' do
-      it { expect(exercise.pending_items?).to be true }
+      it { expect(exercise.pending_siblings?).to be true }
     end
   end
 
-  describe '#children_passed_assignments_by' do
+  describe '#passed_siblings_by' do
     context 'when no exercise has been solved' do
       it 'there are no passed assignments' do
-        expect(guide.children_passed_assignments_by(submitter).empty?).to be true
+        expect(guide.passed_siblings_by(submitter).empty?).to be true
       end
     end
 
@@ -75,11 +75,11 @@ describe Mumukit::Flow::AdaptiveItem do
       end
 
       it 'there are a couple passed assignments' do
-        assignments = guide.children_passed_assignments_by(submitter)
+        siblings = guide.passed_siblings_by(submitter)
 
-        expect(assignments.size).to eq 2
-        expect(assignments.first).to eq exercises[2].assignment
-        expect(assignments.second).to eq exercises[3].assignment
+        expect(siblings.size).to eq 2
+        expect(siblings.first).to eq exercises[2].assignment
+        expect(siblings.second).to eq exercises[3].assignment
       end
     end
   end

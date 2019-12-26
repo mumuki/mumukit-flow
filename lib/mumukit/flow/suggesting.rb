@@ -7,8 +7,8 @@ module Mumukit::Flow
 
     def next_item_suggestion(submitter)
       if end_reached?
-        if pending_items?
-          Mumukit::Flow::Suggestion::Revisit.new(first_pending_item)
+        if pending_siblings?
+          Mumukit::Flow::Suggestion::Revisit.new(first_pending_sibling)
         else
           Mumukit::Flow::Suggestion::None
         end
@@ -36,7 +36,7 @@ module Mumukit::Flow
     end
 
     def parent_passed_assignments
-      parent.children_passed_assignments_by(self.submitter)
+      parent.passed_siblings_by(self.submitter)
     end
 
     def passed_most_easily?(assignments)

@@ -25,26 +25,27 @@ module Mumukit::Flow
     end
 
     def next_items
-      sorted_pending_sibling_items.select { |it| it.number > number }
+      sorted_pending_siblings.select { |it| it.number > number }
     end
 
-    def sorted_pending_sibling_items
+    def sorted_pending_siblings
       pending_siblings.sort_by(&:number)
     end
 
     def pending_siblings
-      siblings.reject { |sibling| sibling.passed? }
+      assignments = parent.exercise_assignments_for(submitter)
+      assignments.map { |assignment| assignment.item }.reject { |item| item.passed? }
     end
 
-    def first_pending_item
-      sorted_pending_sibling_items.first
+    def first_pending_sibling
+      sorted_pending_siblings.first
     end
 
-    def pending_items?
+    def pending_siblings?
       pending_siblings.present?
     end
 
-    def children_passed_assignments_by(submitter)
+    def passed_siblings_by(submitter)
       exercise_assignments_for(submitter).select { |assignment| assignment.passed? }
     end
 
