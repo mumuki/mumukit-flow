@@ -24,23 +24,15 @@ module Mumukit::Flow
     private
 
     def should_skip_next_item?
-      similar_easy_assignments_for_every_tag? unless next_item.learning?
+      similar_easy_siblings_for_every_tag? unless next_item.learning?
     end
 
-    def similar_easy_assignments_for_every_tag?
-      next_item.tags.all? { |tag| easy_assignments_with(tag).count >= 2 }
+    def similar_easy_siblings_for_every_tag?
+      next_item.tags.all? { |tag| easy_siblings_with(tag).count >= 2 }
     end
 
-    def easy_assignments_with(tag)
-      parent_passed_assignments.select { |assignment| assignment.easy? && assignment.item.has?(tag) }
-    end
-
-    def parent_passed_assignments
-      parent.passed_siblings_by(self.submitter)
-    end
-
-    def passed_most_easily?(assignments)
-      assignments.count { |assignment| assignment.easy? } > assignments.count / 2
+    def easy_siblings_with(tag)
+      passed_siblings_by(self.submitter).select { |sibling| sibling.easy? && sibling.item.has?(tag) }
     end
   end
 end

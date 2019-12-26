@@ -46,7 +46,7 @@ module Mumukit::Flow
     end
 
     def passed_siblings_by(submitter)
-      exercise_assignments_for(submitter).select { |assignment| assignment.passed? }
+      parent.exercise_assignments_for(submitter).select { |assignment| assignment.passed? }
     end
 
     def has?(tag)

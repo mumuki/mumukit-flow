@@ -64,7 +64,7 @@ describe Mumukit::Flow::AdaptiveItem do
   describe '#passed_siblings_by' do
     context 'when no exercise has been solved' do
       it 'there are no passed assignments' do
-        expect(guide.passed_siblings_by(submitter).empty?).to be true
+        expect(exercise.passed_siblings_by(submitter).empty?).to be true
       end
     end
 
@@ -75,7 +75,7 @@ describe Mumukit::Flow::AdaptiveItem do
       end
 
       it 'there are a couple passed assignments' do
-        siblings = guide.passed_siblings_by(submitter)
+        siblings = exercise.passed_siblings_by(submitter)
 
         expect(siblings.size).to eq 2
         expect(siblings.first).to eq exercises[2].assignment
