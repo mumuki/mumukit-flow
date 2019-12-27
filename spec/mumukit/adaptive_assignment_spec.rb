@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Mumukit::Flow::AdaptiveAssignment do
-  let(:assignment) { DemoExercise.new(:learning).assignment }
+  let(:assignment) { DemoAssignment.new(DemoExercise.new(:learning)) }
 
   describe 'passing an assignment' do
     context 'with no failures' do

@@ -58,16 +58,17 @@ end
 class DemoExercise < DemoBaseContent
   attr_accessor :number, :tags, :assignment
 
-  delegate :accept_submission_status!, to: :assignment
-
   def initialize(type, tags=['A', 'B'])
     @type = type
     @tags = tags
-    @assignment = DemoAssignment.new(self)
   end
 
-  def assignment_for(_submitter)
-    assignment
+  def assignment_for(_submitter=nil)
+    @assignment ||= DemoAssignment.new self
+  end
+
+  def accept_submission_status!(status)
+    assignment_for.accept_submission_status! status
   end
 end
 
