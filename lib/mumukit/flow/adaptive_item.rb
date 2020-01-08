@@ -33,8 +33,10 @@ module Mumukit::Flow
     end
 
     def pending_siblings
-      assignments = parent.exercise_assignments_for(submitter)
-      assignments.map { |assignment| assignment.item }.reject { |item| item.passed? }
+      assignments = parent.exercise_assignments_for(submitter).compact
+      passed_items = assignments.select { |assignment| assignment.passed? }.map { |assignment| assignment.item }
+
+      parent.children - passed_items
     end
 
     def first_pending_sibling
