@@ -168,4 +168,40 @@ describe Mumukit::Flow::Suggesting do
       end
     end
   end
+
+  describe 'exercises solved out of turn' do
+    context 'when the last two exercises have been solved' do
+      before do
+        exercises[3].accept_submission_status! :passed
+        exercises[4].accept_submission_status! :passed
+      end
+
+      it 'suggests continuing with the first one' do
+        expect(exercises[4].next_suggested_item_for(submitter)).to eq exercises[0]
+      end
+    end
+
+    context 'when the first and last exercises have been solved' do
+      before do
+        exercises[0].accept_submission_status! :passed
+        exercises[4].accept_submission_status! :passed
+      end
+
+      it 'suggests continuing with the second one' do
+        expect(exercises[4].next_suggested_item_for(submitter)).to eq exercises[1]
+      end
+    end
+
+    context 'when the one after and the one before a practice exercise have been solved' do
+      before do
+        exercises[3].accept_submission_status! :passed
+        exercises[1].accept_submission_status! :passed
+      end
+
+      it 'suggests skipping to two exercises after the practice one' do
+        expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[4]
+        expect(exercises[2]).to be_passed
+      end
+    end
+  end
 end
