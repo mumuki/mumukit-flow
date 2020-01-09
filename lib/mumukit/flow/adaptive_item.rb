@@ -11,6 +11,12 @@ module Mumukit::Flow
 
     attr_reader :assignment
 
+    def has?(tag)
+      tags.include?(tag)
+    end
+
+    private
+
     def set_adaptive_assignment!(submitter)
       @assignment = assignment_for submitter
       assignment.skip_if_pending!
@@ -49,10 +55,6 @@ module Mumukit::Flow
 
     def passed_siblings_by(submitter)
       parent.exercise_assignments_for(submitter).select { |assignment| assignment.passed? }
-    end
-
-    def has?(tag)
-      tags.include?(tag)
     end
   end
 end

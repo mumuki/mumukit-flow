@@ -5,6 +5,8 @@ module Mumukit::Flow
       next_item_suggestion(submitter).item
     end
 
+    private
+
     def next_item_suggestion(submitter)
       if end_reached?
         if pending_siblings?
@@ -20,8 +22,6 @@ module Mumukit::Flow
         end
       end
     end
-
-    private
 
     def should_skip_next_item?
       similar_easy_siblings_for_every_tag? unless next_item.learning?
