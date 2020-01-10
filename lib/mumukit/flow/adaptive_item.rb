@@ -7,9 +7,7 @@ module Mumukit::Flow
     required :children
     required :parent
 
-    delegate :passed?, :submitter, to: :assignment
-
-    attr_reader :assignment
+    delegate :passed?, :submitter, to: :@assignment
 
     def has?(tag)
       tags.include?(tag)
@@ -19,7 +17,7 @@ module Mumukit::Flow
 
     def set_adaptive_assignment!(submitter)
       @assignment = assignment_for submitter
-      assignment.skip_if_pending!
+      @assignment.skip_if_pending!
     end
 
     def end_reached?
