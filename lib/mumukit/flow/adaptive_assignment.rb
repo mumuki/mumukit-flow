@@ -1,5 +1,8 @@
 module Mumukit::Flow
   module AdaptiveAssignment
+
+    required :passed?
+
     def easy?
       passed? && submissions_count <= 3
     end

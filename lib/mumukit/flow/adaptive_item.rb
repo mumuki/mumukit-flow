@@ -6,6 +6,7 @@ module Mumukit::Flow
     required :assignment
     required :children
     required :parent
+    required :tags
 
     delegate :passed?, :submitter, to: :@assignment
 
