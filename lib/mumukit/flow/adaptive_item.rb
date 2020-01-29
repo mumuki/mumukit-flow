@@ -10,8 +10,8 @@ module Mumukit::Flow
 
     delegate :passed?, :submitter, to: :@assignment
 
-    def has?(tag)
-      tags.include?(tag)
+    def tagged_as?(tag)
+      tags.include? tag
     end
 
     private

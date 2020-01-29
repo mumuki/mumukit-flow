@@ -3,14 +3,14 @@ require 'spec_helper'
 describe Mumukit::Flow::AdaptiveItem do
   let(:exercise) { DemoExercise.new(:learning, ['A', 'B']) }
 
-  describe '#has?' do
+  describe '#tagged_as?' do
     context 'with some tags it does have' do
-      it { expect(exercise.has? 'A').to be true }
-      it { expect(exercise.has? 'B').to be true }
+      it { expect(exercise.tagged_as? 'A').to be true }
+      it { expect(exercise.tagged_as? 'B').to be true }
     end
 
     context 'with a tag it does not have' do
-      it { expect(exercise.has? 'C').to be false }
+      it { expect(exercise.tagged_as? 'C').to be false }
     end
   end
 end

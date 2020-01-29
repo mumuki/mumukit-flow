@@ -32,7 +32,7 @@ module Mumukit::Flow
     end
 
     def easy_siblings_with(tag)
-      passed_siblings_by(self.submitter).select { |sibling| sibling.easy? && sibling.item.has?(tag) }
+      passed_siblings_by(self.submitter).select { |sibling| sibling.easy? && sibling.item.tagged_as?(tag) }
     end
   end
 end
