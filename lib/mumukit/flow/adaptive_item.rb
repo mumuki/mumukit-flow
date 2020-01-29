@@ -38,7 +38,7 @@ module Mumukit::Flow
     end
 
     def pending_siblings
-      passed_items = passed_siblings_by(submitter).map { |assignment| assignment.item }
+      passed_items = passed_siblings_by(submitter).map(&:item)
       parent.children - passed_items
     end
 
@@ -51,7 +51,7 @@ module Mumukit::Flow
     end
 
     def passed_siblings_by(submitter)
-      parent.exercise_assignments_for(submitter).select { |assignment| assignment.passed? }
+      parent.exercise_assignments_for(submitter).select(&:passed?)
     end
   end
 end
