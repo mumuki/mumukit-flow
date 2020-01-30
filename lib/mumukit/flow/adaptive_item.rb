@@ -14,8 +14,16 @@ module Mumukit::Flow
       tags.include? tag
     end
 
+    def should_skip_next_item?
+      similar_easy_siblings_for_every_tag? if next_item.skippable?
+    end
+
     def skippable?
       practice?
+    end
+
+    def end_reached?
+      next_item.nil?
     end
 
     private
@@ -23,10 +31,6 @@ module Mumukit::Flow
     def set_adaptive_assignment!(submitter)
       @assignment = assignment_for submitter
       @assignment.skip_if_pending!
-    end
-
-    def end_reached?
-      next_item.nil?
     end
 
     def next_item
@@ -56,6 +60,14 @@ module Mumukit::Flow
 
     def passed_siblings_by(submitter)
       parent.exercise_assignments_for(submitter).select(&:passed?)
+    end
+
+    def similar_easy_siblings_for_every_tag?
+      next_item.tags.all? { |tag| easy_siblings_with(tag).count >= 2 }
+    end
+
+    def easy_siblings_with(tag)
+      passed_siblings_by(submitter).select { |sibling| sibling.easy? && sibling.item.tagged_as?(tag) }
     end
   end
 end
