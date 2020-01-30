@@ -26,7 +26,7 @@ module Mumukit::Flow
     end
 
     def next_item
-      next_items.first
+      @next_item ||= next_items.first
     end
 
     def next_items
