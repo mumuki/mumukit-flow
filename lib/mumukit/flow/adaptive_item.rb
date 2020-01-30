@@ -14,6 +14,10 @@ module Mumukit::Flow
       tags.include? tag
     end
 
+    def skippable?
+      practice?
+    end
+
     private
 
     def set_adaptive_assignment!(submitter)
