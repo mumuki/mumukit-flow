@@ -19,7 +19,11 @@ describe Mumukit::Flow::Suggesting do
         exercise.accept_submission_status! :passed
       end
 
-      it 'suggests continuing with the next one' do
+      it 'suggests continuing' do
+        expect(exercise.should_skip_next_item?).to be_falsey
+      end
+
+      it 'with the next one' do
         expect(exercise.next_suggested_item_for(submitter)).to eq exercises[1]
       end
     end
@@ -36,14 +40,22 @@ describe Mumukit::Flow::Suggesting do
           build_guide_with(exercises)
         end
 
-        it 'suggests continuing with it' do
+        it 'suggests continuing' do
+          expect(exercise.should_skip_next_item?).to be_falsey
+        end
+
+        it 'with the third one' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
         end
       end
 
       context 'when the third exercise is practice' do
         context 'when the fourth exercise is learning' do
-          it 'suggests skipping to the fourth one' do
+          it 'suggests skipping' do
+            expect(exercise.should_skip_next_item?).to be_truthy
+          end
+
+          it 'to the fourth one' do
             expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[3]
             expect(exercises[2]).to be_passed
           end
@@ -55,7 +67,11 @@ describe Mumukit::Flow::Suggesting do
             build_guide_with(exercises)
           end
 
-          it 'suggests skipping to the fifth one' do
+          it 'suggests skipping' do
+            expect(exercise.should_skip_next_item?).to be_truthy
+          end
+
+          it 'to the fifth one' do
             expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[4]
             expect(exercises[2]).to be_passed
             expect(exercises[3]).to be_passed
@@ -73,7 +89,11 @@ describe Mumukit::Flow::Suggesting do
         exercises[1].accept_submission_status! :passed
       end
 
-      it 'suggests continuing with the next exercise' do
+      it 'suggests continuing' do
+        expect(exercise.should_skip_next_item?).to be_falsey
+      end
+
+      it 'with the next one' do
         expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
       end
     end
@@ -106,7 +126,11 @@ describe Mumukit::Flow::Suggesting do
         exercises[1].accept_submission_status! :passed
       end
 
-      it 'suggests continuing with the next exercise whatever its tag' do
+      it 'suggests continuing' do
+        expect(exercise.should_skip_next_item?).to be_falsey
+      end
+
+      it 'with the next one whatever its tag' do
         expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
       end
     end
@@ -129,6 +153,10 @@ describe Mumukit::Flow::Suggesting do
         end
 
         it 'suggests continuing' do
+          expect(exercise.should_skip_next_item?).to be_falsey
+        end
+
+        it 'with the next one' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
         end
       end
@@ -140,6 +168,10 @@ describe Mumukit::Flow::Suggesting do
         end
 
         it 'suggests skipping' do
+          expect(exercise.should_skip_next_item?).to be_truthy
+        end
+
+        it 'to the one after the next one' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[3]
           expect(exercises[2]).to be_passed
         end
@@ -152,6 +184,10 @@ describe Mumukit::Flow::Suggesting do
         end
 
         it 'suggests continuing' do
+          expect(exercise.should_skip_next_item?).to be_falsey
+        end
+
+        it 'with the next one' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
         end
       end
@@ -163,6 +199,10 @@ describe Mumukit::Flow::Suggesting do
         end
 
         it 'suggests continuing' do
+          expect(exercise.should_skip_next_item?).to be_falsey
+        end
+
+        it 'with the next one' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
         end
       end
@@ -198,7 +238,11 @@ describe Mumukit::Flow::Suggesting do
         exercises[1].accept_submission_status! :passed
       end
 
-      it 'suggests skipping to two exercises after the practice one' do
+      it 'suggests skipping' do
+        expect(exercises[1].should_skip_next_item?).to be_truthy
+      end
+
+      it 'to two exercises after the practice one' do
         expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[4]
         expect(exercises[2]).to be_passed
       end
