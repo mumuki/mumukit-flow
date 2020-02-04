@@ -63,11 +63,15 @@ module Mumukit::Flow
     end
 
     def similar_easy_siblings_for_every_tag?
-      next_item.tags.all? { |tag| easy_siblings_with(tag).count >= 2 }
+      next_item.tags.all? { |tag| easy_siblings_with(tag).count >= min_easy_siblings_for_skipping }
     end
 
     def easy_siblings_with(tag)
       passed_siblings_by(submitter).select { |sibling| sibling.easy? && sibling.item.tagged_as?(tag) }
+    end
+
+    def min_easy_siblings_for_skipping
+      2
     end
   end
 end
