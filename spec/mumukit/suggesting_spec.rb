@@ -216,7 +216,11 @@ describe Mumukit::Flow::Suggesting do
         exercises[4].accept_submission_status! :passed
       end
 
-      it 'suggests continuing with the first one' do
+      it 'suggests continuing' do
+        expect(exercises[4].should_skip_next_item?).to be_falsey
+      end
+
+      it 'with the first one' do
         expect(exercises[4].next_suggested_item_for(submitter)).to eq exercises[0]
       end
     end
@@ -227,7 +231,11 @@ describe Mumukit::Flow::Suggesting do
         exercises[4].accept_submission_status! :passed
       end
 
-      it 'suggests continuing with the second one' do
+      it 'suggests continuing' do
+        expect(exercises[4].should_skip_next_item?).to be_falsey
+      end
+
+      it 'with the second one' do
         expect(exercises[4].next_suggested_item_for(submitter)).to eq exercises[1]
       end
     end

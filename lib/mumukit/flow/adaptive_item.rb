@@ -15,7 +15,7 @@ module Mumukit::Flow
     end
 
     def should_skip_next_item?
-      similar_easy_siblings_for_every_tag? if next_item.skippable?
+      similar_easy_siblings_for_every_tag? if next_item&.skippable?
     end
 
     def skippable?
