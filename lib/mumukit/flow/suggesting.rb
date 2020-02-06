@@ -14,12 +14,10 @@ module Mumukit::Flow
         else
           Mumukit::Flow::Suggestion::None
         end
+      elsif should_skip_next_item?
+        Mumukit::Flow::Suggestion::Skip.new(next_item.next_suggested_item_for(submitter))
       else
-        if should_skip_next_item?
-          Mumukit::Flow::Suggestion::Skip.new(next_item.next_suggested_item_for(submitter))
-        else
-          Mumukit::Flow::Suggestion::Continue.new(next_item)
-        end
+        Mumukit::Flow::Suggestion::Continue.new(next_item)
       end
     end
   end
