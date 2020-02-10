@@ -6,7 +6,7 @@ module Mumukit
   end
 end
 
-require_relative './flow/node'
 require_relative './flow/suggestion'
-require_relative './flow/difficulty'
-require_relative './flow/assignment'
+require_relative './flow/suggesting'
+require_relative './flow/adaptive_assignment'
+require_relative './flow/adaptive_item'

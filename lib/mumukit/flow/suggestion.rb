@@ -16,13 +16,13 @@ module Mumukit::Flow
     class Continue < Some
     end
 
-    class FastForward < Some
+    class Skip < Some
+    end
+
+    class Reinforce < Some
     end
 
     class Revisit < Some
-    end
-
-    class Retry < Some
     end
   end
 end
