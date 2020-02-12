@@ -2,18 +2,19 @@
 
 > An adaptive flow implementation for the Mumuki Platform
 
-This gem implements an adaptive flow - on other ways, it responds to the question _what exercise should come next?_. It does not address other aspects of the platform like code evaluation, submission flow UI or feedback provision.
+This gem implements an adaptive flow - it considers a student's performance to respond to the question _what exercise should come next?_. It does not address other aspects of the platform like code evaluation, submission flow UI or feedback provision, but it does implement some navigation-related aspects.
 
-At glance, it supports four types of flow:
+The initial work on this gem is based on Marco Moresi's Computer Science Thesis from the Faculty of Mathematics, Algebra and Physics, University of Córdoba, Argentina, which can be found in [this repository](https://github.com/mrcmoresi/msc-thesis).
 
-* `forward-flow`: how to get to more advanced exercises:
-   * `continue`: go to next exercise
-   * `fast-forwad`: go faster to more advanced exercies, by bypassing practice exercises when performing very well
-* `backward flow`: how to revist previous exercises.
-   * `revisit`: do exercises previously skipped by student
-   * `retry`: re-do previously solved exercises that turned to be hard to pass
+At a glance, it supports five types of suggestions:
 
-They are implemented as `Mumukit::Flow::Suggestion`s: `Mumukit::Flow::Suggestion::Continue`, `Mumukit::Flow::Suggestion::FastForward`, `Mumukit::Flow::Suggestion::Revisit` and `Mumukit::Flow::Suggestion::Retry`.
+ * `continue`: go to the next exercise
+ * `revisit`: try again an exercise the student manually skipped
+ * `skip`: go faster to more advanced exercises by skipping practice exercises when performing very well
+ * `reinforce`: go to an easier exercise, to better grasp the concepts that prove difficult for the student
+ * `none`: nothing to suggest
+ 
+They are implemented as `Mumukit::Flow::Suggestion`s: `Mumukit::Flow::Suggestion::Continue`, `Mumukit::Flow::Suggestion::Revisit`, `Mumukit::Flow::Suggestion::Skip`, `Mumukit::Flow::Suggestion::Reinforce` and `Mumukit::Flow::Suggestion::None`.
 
 ## Development
 
