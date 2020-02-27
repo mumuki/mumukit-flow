@@ -66,7 +66,7 @@ module Mumukit::Flow
     end
 
     def similar_easy_siblings_for_every_tag?
-      next_item.tags.all?{ |tag| easy_tag?(tag) } unless next_item.no_tags?
+      next_item.tags.all? { |tag| easy_tag?(tag) } unless next_item.no_tags?
     end
 
     def easy_tag?(tag)
