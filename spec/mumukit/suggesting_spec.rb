@@ -209,6 +209,46 @@ describe Mumukit::Flow::Suggesting do
     end
   end
 
+  describe 'exercises with no tags' do
+    let(:exercises) { [
+        DemoExercise.new(:learning, []),
+        DemoExercise.new(:learning, []),
+        DemoExercise.new(:practice, [])
+    ] }
+
+    context 'when two learning exercises were solved easily' do
+      before do
+        exercises[0].accept_submission_status! :passed
+        exercises[1].accept_submission_status! :passed
+      end
+
+      context 'when the third exercise is practice' do
+        it 'suggests continuing' do
+          expect(exercise.should_skip_next_item?).to be_falsey
+        end
+
+        it 'with the third one' do
+          expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
+        end
+      end
+
+      context 'when the third exercise is learning' do
+        before do
+          exercises[2] = DemoExercise.new(:learning, [])
+          build_guide_with(exercises)
+        end
+
+        it 'suggests continuing' do
+          expect(exercise.should_skip_next_item?).to be_falsey
+        end
+
+        it 'with the third one' do
+          expect(exercise.next_suggested_item_for(submitter)).to eq exercises[2]
+        end
+      end
+    end
+  end
+
   describe 'exercises solved out of turn' do
     context 'when the last two exercises have been solved' do
       before do

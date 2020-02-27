@@ -5,13 +5,14 @@ describe Mumukit::Flow::AdaptiveItem do
       DemoExercise.new(:learning, ['A', 'B']),
       DemoExercise.new(:learning),
       DemoExercise.new(:practice),
-      DemoExercise.new(:learning),
+      DemoExercise.new(:learning, []),
       DemoExercise.new(:learning)
   ] }
   let!(:guide) { DemoGuide.new(exercises) }
   let(:submitter) { 'a student' }
   let(:exercise) { exercises.first }
   let(:practice_exercise) { exercises.third }
+  let(:tagless_exercise) { exercises.fourth }
   let(:last_exercise) { exercises.last }
 
   describe '#tagged_as?' do
@@ -22,6 +23,16 @@ describe Mumukit::Flow::AdaptiveItem do
 
     context 'with a tag it does not have' do
       it { expect(exercise.tagged_as? 'C').to be false }
+    end
+  end
+
+  describe '#no_tags?' do
+    context 'when an exercise has tags' do
+      it { expect(exercise.no_tags?).to be false}
+    end
+
+    context 'when an exercise does not have tags' do
+      it { expect(tagless_exercise.no_tags?).to be true }
     end
   end
 

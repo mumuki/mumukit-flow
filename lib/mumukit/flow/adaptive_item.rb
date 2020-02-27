@@ -13,6 +13,10 @@ module Mumukit::Flow
       tags.include? tag
     end
 
+    def no_tags?
+      tags.empty?
+    end
+
     def should_skip_next_item?
       similar_easy_siblings_for_every_tag? if next_item&.skippable?
     end
@@ -62,7 +66,11 @@ module Mumukit::Flow
     end
 
     def similar_easy_siblings_for_every_tag?
-      next_item.tags.all? { |tag| easy_siblings_with(tag).count >= min_easy_siblings_for_skipping }
+      next_item.tags.all?{ |tag| easy_tag?(tag) } unless next_item.no_tags?
+    end
+
+    def easy_tag?(tag)
+      easy_siblings_with(tag).count >= min_easy_siblings_for_skipping
     end
 
     def easy_siblings_with(tag)
