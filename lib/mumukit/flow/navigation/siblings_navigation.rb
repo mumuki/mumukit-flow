@@ -16,11 +16,9 @@ module Mumukit::Flow::SiblingsNavigation
     structural_parent.structural_children
   end
 
-  def pending_siblings_for(user, organization=Organization.current)
-    siblings.reject { |it| it.progress_for(user, organization).completed? }
+  def pending_siblings_for(user)
+    siblings.reject { |it| it.progress_for(user).completed? }
   end
-
-  # Names
 
   def navigable_name
     "#{number}. #{name}"
