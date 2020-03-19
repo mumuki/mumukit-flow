@@ -44,7 +44,7 @@ end
 class DemoBaseContent
   include Mumukit::Flow::AdaptiveItem
 
-  attr_accessor :parent
+  attr_accessor :structural_parent
 
   def learning?
     @type == :learning
@@ -73,15 +73,15 @@ class DemoExercise < DemoBaseContent
 end
 
 class DemoGuide < DemoBaseContent
-  attr_accessor :children
+  attr_accessor :structural_children
 
   def initialize(exercises)
-    @children = exercises
+    @structural_children = exercises
     exercises.merge_numbers!
-    exercises.each { |it| it.parent = self }
+    exercises.each { |it| it.structural_parent = self }
   end
 
   def exercise_assignments_for(_submitter)
-    children.map(&:assignment)
+    structural_children.map(&:assignment)
   end
 end

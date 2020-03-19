@@ -3,8 +3,8 @@ module Mumukit::Flow
     include Mumukit::Flow::Suggesting
 
     required :assignment
-    required :children
-    required :parent
+    required :structural_children
+    required :structural_parent
     required :tags
 
     delegate :passed?, :submitter, to: :@assignment
@@ -50,7 +50,7 @@ module Mumukit::Flow
 
     def pending_siblings
       passed_items = passed_siblings_by(submitter).map(&:item)
-      parent.children - passed_items
+      structural_parent.structural_children - passed_items
     end
 
     def first_pending_sibling
@@ -62,7 +62,7 @@ module Mumukit::Flow
     end
 
     def passed_siblings_by(submitter)
-      parent.exercise_assignments_for(submitter).select(&:passed?)
+      structural_parent.exercise_assignments_for(submitter).select(&:passed?)
     end
 
     def similar_easy_siblings_for_every_tag?
