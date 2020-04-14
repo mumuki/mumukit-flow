@@ -39,6 +39,11 @@ class LeafNavigable
   def name
     'Leaf'
   end
+
+  # TODO: to be deleted when method is reestablished in siblings_navigation
+  def pending_siblings_for(user)
+    structural_parent.structural_children
+  end
 end
 
 class StructuralParent
