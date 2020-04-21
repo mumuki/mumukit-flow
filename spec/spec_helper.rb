@@ -82,6 +82,6 @@ class DemoGuide < DemoBaseContent
   end
 
   def exercise_assignments_for(_submitter)
-    structural_children.map(&:assignment)
+    structural_children.map(&:assignment).compact
   end
 end
