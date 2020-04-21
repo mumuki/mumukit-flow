@@ -34,6 +34,10 @@ class DemoAssignment
     @status == :passed
   end
 
+  def skipped?
+    @status == :skipped
+  end
+
   def solved?
     @status == :passed || @status == :skipped
   end
