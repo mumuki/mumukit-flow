@@ -57,7 +57,7 @@ describe Mumukit::Flow::Suggesting do
 
           it 'to the fourth one' do
             expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[3]
-            expect(exercises[2]).to be_passed
+            expect(exercises[2]).to be_skipped
           end
         end
 
@@ -73,8 +73,8 @@ describe Mumukit::Flow::Suggesting do
 
           it 'to the fifth one' do
             expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[4]
-            expect(exercises[2]).to be_passed
-            expect(exercises[3]).to be_passed
+            expect(exercises[2]).to be_skipped
+            expect(exercises[3]).to be_skipped
           end
         end
       end
@@ -109,6 +109,9 @@ describe Mumukit::Flow::Suggesting do
         exercises[1].accept_submission_status! :passed
 
         expect(exercises[1].next_suggested_item_for(submitter)).to be nil
+        expect(exercises[2]).to be_skipped
+        expect(exercises[3]).to be_skipped
+        expect(exercises[4]).to be_skipped
       end
     end
   end
@@ -173,7 +176,7 @@ describe Mumukit::Flow::Suggesting do
 
         it 'to the one after the next one' do
           expect(exercise.next_suggested_item_for(submitter)).to eq exercises[3]
-          expect(exercises[2]).to be_passed
+          expect(exercises[2]).to be_skipped
         end
       end
 
@@ -252,7 +255,7 @@ describe Mumukit::Flow::Suggesting do
 
       it 'to two exercises after the practice one' do
         expect(exercises[1].next_suggested_item_for(submitter)).to eq exercises[4]
-        expect(exercises[2]).to be_passed
+        expect(exercises[2]).to be_skipped
       end
     end
   end

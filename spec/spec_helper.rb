@@ -44,7 +44,7 @@ class DemoAssignment
 
   def skip_if_pending!
     if @status == :pending
-      @status = :passed
+      @status = :skipped
     end
   end
 end
