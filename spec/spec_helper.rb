@@ -34,6 +34,10 @@ class DemoAssignment
     @status == :passed
   end
 
+  def solved?
+    @status == :passed || @status == :skipped
+  end
+
   def skip_if_pending!
     if @status == :pending
       @status = :passed

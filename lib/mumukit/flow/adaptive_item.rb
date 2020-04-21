@@ -7,7 +7,7 @@ module Mumukit::Flow
     required :structural_parent
     required :tags
 
-    delegate :passed?, :submitter, to: :@assignment
+    delegate :passed?, :solved?, :submitter, to: :@assignment
 
     def tagged_as?(tag)
       tags.include? tag
@@ -45,8 +45,8 @@ module Mumukit::Flow
     end
 
     def pending_siblings
-      passed_items = passed_siblings_by(submitter).map(&:item)
-      structural_parent.structural_children - passed_items
+      solved_items = solved_siblings_by(submitter).map(&:item)
+      structural_parent.structural_children - solved_items
     end
 
     def first_pending_sibling
@@ -57,8 +57,8 @@ module Mumukit::Flow
       pending_siblings.present?
     end
 
-    def passed_siblings_by(submitter)
-      structural_parent.exercise_assignments_for(submitter).select(&:passed?)
+    def solved_siblings_by(submitter)
+      structural_parent.exercise_assignments_for(submitter).select(&:solved?)
     end
 
     def similar_easy_siblings_for_every_tag?
@@ -66,7 +66,7 @@ module Mumukit::Flow
     end
 
     def easy_siblings_with(tag)
-      passed_siblings_by(submitter).select { |sibling| sibling.easy? && sibling.item.tagged_as?(tag) }
+      solved_siblings_by(submitter).select { |sibling| sibling.easy? && sibling.item.tagged_as?(tag) }
     end
 
     def min_easy_siblings_for_skipping
