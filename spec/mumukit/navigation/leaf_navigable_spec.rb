@@ -20,9 +20,9 @@ describe 'ParentNavigation, SiblingsNavigation' do
     it { expect(leaf.navigable_parent).to be_a SubRootNavigable }
   end
 
-  # describe '#structural_parent' do
-  #   it { expect(leaf.structural_parent).to be_a StructuralParent }
-  # end
+  describe '#structural_parent' do
+    it { expect(leaf.structural_parent).to be_a StructuralParent }
+  end
 
   describe '#next_for' do
     it { expect(leaf.next_for('user')).to be_a LeafNavigable }
