@@ -66,6 +66,8 @@ end
 class DemoExercise < DemoBaseContent
   attr_accessor :number, :tags, :assignment
 
+  delegate :passed?, :skipped?, to: :assignment
+
   def initialize(type, tags=['A', 'B'])
     @type = type
     @tags = tags

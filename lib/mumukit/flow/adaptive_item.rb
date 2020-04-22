@@ -7,7 +7,7 @@ module Mumukit::Flow
     required :structural_parent
     required :tags
 
-    delegate :passed?, :skipped?, :solved?, :submitter, to: :@assignment
+    delegate :solved?, :submitter, to: :@assignment
 
     def tagged_as?(tag)
       tags.include? tag
