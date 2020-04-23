@@ -1,10 +1,10 @@
 module Mumukit::Flow
   module AdaptiveAssignment
 
-    required :passed?
+    required :solved?
 
     def easy?
-      passed? && submissions_count <= max_submissions_for_easy
+      solved? && submissions_count <= max_submissions_for_easy
     end
 
     def hard?

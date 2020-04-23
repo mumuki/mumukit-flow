@@ -34,9 +34,17 @@ class DemoAssignment
     @status == :passed
   end
 
+  def skipped?
+    @status == :skipped
+  end
+
+  def solved?
+    @status == :passed || @status == :skipped
+  end
+
   def skip_if_pending!
     if @status == :pending
-      @status = :passed
+      @status = :skipped
     end
   end
 end
@@ -57,6 +65,8 @@ end
 
 class DemoExercise < DemoBaseContent
   attr_accessor :number, :tags, :assignment
+
+  delegate :passed?, :skipped?, to: :assignment
 
   def initialize(type, tags=['A', 'B'])
     @type = type
@@ -82,6 +92,6 @@ class DemoGuide < DemoBaseContent
   end
 
   def exercise_assignments_for(_submitter)
-    structural_children.map(&:assignment)
+    structural_children.map(&:assignment).compact
   end
 end
