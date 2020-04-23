@@ -62,7 +62,7 @@ module Mumukit::Flow
     end
 
     def solved_siblings_by(submitter)
-      structural_parent.exercise_assignments_for(submitter).select(&:solved?)
+      structural_parent.exercise_assignments_for(submitter).compact.select(&:solved?)
     end
 
     def similar_easy_siblings_for_every_tag?
