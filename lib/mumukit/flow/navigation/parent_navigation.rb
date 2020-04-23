@@ -1,7 +1,4 @@
 module Mumukit::Flow::ParentNavigation
-  required :structural_parent
-  required :name
-
   def leave(user)
     navigable_parent.next_for(user)
   end

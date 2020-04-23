@@ -1,6 +1,4 @@
 module Mumukit::Flow::TerminalNavigation
-  required :name
-
   def navigation_end?
     true
   end

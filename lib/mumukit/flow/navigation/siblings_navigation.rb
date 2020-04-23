@@ -1,9 +1,4 @@
 module Mumukit::Flow::SiblingsNavigation
-  required :structural_parent
-  required :progress_for
-  required :number
-  required :name
-
   def next_for(user)
     pending_siblings_for(user).select { |it| it.number > number }.sort_by(&:number).first
   end
