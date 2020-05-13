@@ -1,5 +1,14 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.6.3
+- 2.6.3
 before_install: gem install bundler -v 2.0.2
+deploy:
+  provider: rubygems
+  api_key:
+    secure: QJGxN+Nm6yYh/5463NgdOYye/MKNDnsxYRkczdt9I0UCF33hhyn4i8tS5m7IbhPkQJLJqRQTMHy0rLM7CXJZ0KrI33F+meDin36GerWBFGXjBv3UatzaoM2BQpDQzPbrLKNB52HouchVoXY56Y2elf4Od6qLmhqoXa2RXsA0AA2t9e4GN4/iTHE4aGePPKUVTWLNMTMMPe2TlXADSdw03DgLiSk/K8ZTUYpK4T+cxn/SjmpXNrBMIktrznOVTcNpG0FyBMxpW2dVLqa4sVMeKt+cT4aiQfvJXkbxEXHm0ZM95rpiNpAiyD2Yno9+AC2kO3A32PTMSbHS6Taq2z3A6quTYaxrVbv/N7ZXZIlNKyG1ukj3H6CXdC9pkBF80c8bEy7yGVy0b2Wwx5LEuGiv6wwEZNsqoccJyP1Jgw+3qaP5TW+HCGgJxgIngX019MTZzGHEC443imJuhuB5ZOM/jtqRvE1XGWcFNarg+Id+0KTkDLRAt8QeIesBOfo1ziSUIZS9tn2LbYm701PIuK63KwkVMsnMKHNoOAybJd0zc64EvEjOGSV5+bmDPFDPbhiRviNm5YRtQCuKq3OUlYU1J8HpQk56UEGjBwcoDFv+IAqDCZnVvw1xor/6hVNJnVlS/k+4EUf9Bnt+BGd2rnpzyJIXadmcTHnZOuSi8rEkiSM=
+  gem: 'yes'
+  on:
+    tags: true
+    repo: mumuki/mumukit-flow
+  skip_cleanup: 'true'
