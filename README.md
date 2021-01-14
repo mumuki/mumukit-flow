@@ -1,4 +1,4 @@
-# :arrow_right_hook: Mumukit::Flow
+# :arrow_right_hook: Mumukit::Flow ![Test and deploy](https://github.com/mumuki/mumukit-flow/workflows/Test%20and%20deploy/badge.svg?branch=master)
 
 > An adaptive flow implementation for the Mumuki Platform
 
